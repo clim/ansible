@@ -1,0 +1,5 @@
+---
+
+username: ansible
+group: ansible
+ssh_key: './ssh_keys/id_rsa.pub'

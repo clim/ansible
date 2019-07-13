@@ -1,0 +1,15 @@
+---
+
+- name: Ensure the install directory exists
+  file:
+    path: /opt/installer
+    state: directory
+
+- name: Copy Oracle installer
+  copy:
+    src: "{{ oracle_installer_path }}/{{ item.file }}"
+
+    dest: /opt/installer
+  with_items:
+    - { file: 'linux.x64_11gR2_database_1of2.zip', checksum: '8c0236eda14d12ca1127418815f027a92d8b407e' }
+    - { file: 'linux.x64_11gR2_database_2of2.zip', checksum: '1db316053728e4a668b96e00ed771a3e40100021' }

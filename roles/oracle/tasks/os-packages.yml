@@ -1,0 +1,24 @@
+---
+
+- name: Add Oracle GPG key
+  rpm_key:
+    key: https://yum.oracle.com/RPM-GPG-KEY-oracle-ol7
+    state: present
+
+- name: Add Oracle yum repository
+  get_url:
+    url: http://public-yum.oracle.com/public-yum-ol7.repo
+    dest: /etc/yum.repos.d/public-yum-ol7.repo
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install pre-installation package
+  yum:
+    name: oracle-rdbms-server-11gR2-preinstall
+
+- name: Install OS Packages
+  yum:
+    name: unzip, libaio.i686, glibc.i686, compat-libstdc++-33.i686, elfutils-libelf-devel.i686, libaio-devel.i686, libgcc.i686, libstdc++.i686, unixODBC.i686, unixODBC-devel.i686, ksh
+    update_cache: yes
+    state: installed

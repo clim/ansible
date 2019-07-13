@@ -1,0 +1,13 @@
+---
+
+- name: Set netca response file
+  template:
+    src: netca-11g.rsp.j2
+    dest: /tmp/netca.rsp
+
+- name: configure listener
+  shell: "{{ oracle_database_oracle_home }}/bin/netca /silent /responseFile /tmp/netca.rsp"
+  args:
+    creates: "{{ oracle_database_oracle_home }}/network/admin/{{ oracle_database_listener_name }}.ora"
+  become: yes
+  become_user: oracle

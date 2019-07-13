@@ -1,0 +1,53 @@
+---
+
+- include: prepare-installers-11g.yml
+
+- name: Create the necessary folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: oracle
+    group: oinstall
+  with_items:
+    - "{{ oracle_database_inventory_location }}"
+    - "{{ oracle_database_oracle_base }}"
+    - "{{ oracle_database_oracle_home }}"
+
+- name: Preparing database installation template
+  template:
+    src: response.rsp.j2
+    dest: /tmp/db-install.rsp
+
+- name: Update required pre-requisites
+  shell: "sed -i -e 's/<RUNLEVEL>/<RUNLEVEL SEVERITY=\"IGNORABLE\">/g' /tmp/database/stage/cvu/cvu_prereq.xml"
+
+- name: Run installer
+  shell: "/tmp/database/runInstaller -debug -silent -logLevel info -responseFile /tmp/db-install.rsp"
+  args:
+    creates: "{{ oracle_database_oracle_home }}/bin/sqlplus"
+  become: yes
+  become_user: oracle
+  register: command_result
+  failed_when: "'Successfully Setup Software.' not in command_result.stdout_lines"
+
+- name: Installation results
+  debug:
+    var: command_result
+
+- name: Run post-installation scripts as root
+  shell: "{{item}}"
+  with_items:
+    - "{{ oracle_database_inventory_location }}/orainstRoot.sh"
+    - "{{ oracle_database_oracle_home }}/root.sh"
+
+- name: Set oracle home
+  lineinfile:
+   dest: "/home/oracle/.bash_profile"
+   regexp: "^{{ item.start }}"
+   line: "{{ item.start }}{{ item.end }}"
+   insertbefore: "export PATH"
+  become: yes
+  become_user: oracle
+  with_items:
+   - { start: "ORACLE_HOME=", end: "{{ oracle_database_oracle_home }}" }
+   - { start: "PATH=$ORACLE_HOME/bin:", end: "$PATH" }

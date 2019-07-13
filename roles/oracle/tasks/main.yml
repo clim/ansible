@@ -1,0 +1,26 @@
+---
+
+- name: Copy Oracle installer files to destination server
+  include: copy-binaries.yml
+  tags: copy
+
+- name: Increase swap space
+  include: swap.yml
+  tags: swap
+
+- name: Install OS packages
+  include: os-packages.yml
+  tags: os_packages
+
+- name: Install oracle database
+  include: install-db.yml
+  tags: install_database
+
+- name: Create listener Oracle database 11g
+  include: create-listener.yml
+  tags: create_listener
+
+- name: Configure instance oracle database 11g
+  include: create-instance.yml
+  tags:
+    - create_instance

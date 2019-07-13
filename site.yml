@@ -1,0 +1,23 @@
+---
+
+- name: Create Ansible user
+  hosts: all
+  become: yes
+  roles:
+    - user
+  tags: user
+
+- name: Setup Oracle
+  hosts: oracle
+  become: yes
+  roles:
+    - oracle
+  tags: oracle
+
+- name: Setup Project Harbor
+  hosts: harbor
+  gather_facts: no
+  become: yes
+  roles:
+    - projectharbor
+  tags: projectharbor

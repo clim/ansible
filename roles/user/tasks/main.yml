@@ -1,0 +1,42 @@
+---
+
+- name: Create Group
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: Create User Account
+  user:
+    name: "{{ username }}"
+    group: "{{ group }}"
+    append: yes
+    shell: /bin/bash
+    create_home: yes
+    state: present
+
+- name: Set authorized key
+  authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ lookup('file', ssh_key) }}"
+
+- name: Ensure /etc/sudoers.d directory is present
+  file:
+    path: /etc/sudoers.d
+    state: directory
+
+- name: Add user to the sudoers
+  lineinfile:
+    path: "/etc/sudoers.d/{{ username }}"
+    state: present
+    create: yes
+    regexp: "{{ username }} .*"
+    line: "{{ username }} ALL=(ALL) NOPASSWD:ALL"
+
+- name: Ensure /etc/sudoers.d file has correct permissions
+  file:
+    path: "/etc/sudoers.d/{{ username }}"
+    mode: 0440
+    state: file
+    owner: root
+    group: root
