@@ -1,2 +1,11 @@
 ---
-# handlers file for oracle-database
+
+- name: Restart Oracle service
+  service:
+    name: oracle-11g
+    state: restarted
+
+- name: Bounce firewalld
+  service:
+    name: firewalld
+    state: restarted
