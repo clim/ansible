@@ -1,9 +1,47 @@
 ---
 
-- name: Evaluate oracle database instance
-  stat:
-    path: "{{ oracle_database_oracle_home }}/dbs/spfile{{ oracle_database_sid }}.ora"
-  register: orafile
+- name: Create dbca response file
+  template:
+    src: dbca-11g.rsp.j2
+    dest: /tmp/dbca.rsp
 
-- include: create-instance-11g.yml
-  when: not orafile.stat.exists and oracle_database_version == '11g'
+- name: Create database instance
+  command: "{{ oracle_database_oracle_home }}/bin/dbca -silent -responseFile /tmp/dbca.rsp"
+  args:
+    creates: "{{ oracle_database_oracle_home }}/dbs/spfile{{ oracle_database_sid }}.ora"
+  become: yes
+  become_user: oracle
+  register: command_result
+  failed_when: "'100% complete' not in command_result.stdout_lines"
+
+- name: Define service
+  template:
+    src: oracle-11g.service.j2
+    dest: /etc/systemd/system/oracle-11g.service
+  tags:
+    - configure_service
+
+- name: Enable service
+  service:
+    name: oracle-11g
+    enabled: yes
+  tags:
+    - configure_service
+
+- name: Add oratab
+  template:
+    src: oratab-11g.j2
+    dest: /etc/oratab
+    owner: oracle
+    group: oinstall
+
+- name: Set Oracle SID
+  lineinfile:
+    dest: "/home/oracle/.bash_profile"
+    regexp: "^{{ item.start }}"
+    line: "{{ item.start }}{{ item.end }}"
+    insertbefore: "export PATH"
+  with_items:
+    - { start: "ORACLE_SID=", end: "{{ oracle_database_sid }}" }
+  become: yes
+  become_user: oracle

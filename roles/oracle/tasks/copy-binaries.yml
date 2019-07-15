@@ -8,7 +8,6 @@
 - name: Copy Oracle installer
   copy:
     src: "{{ oracle_installer_path }}/{{ item.file }}"
-
     dest: /opt/installer
   with_items:
     - { file: 'linux.x64_11gR2_database_1of2.zip', checksum: '8c0236eda14d12ca1127418815f027a92d8b407e' }

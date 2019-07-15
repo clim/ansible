@@ -5,7 +5,7 @@
   tags: copy
 
 - name: Increase swap space
-  include: swap.yml
+  include: swap-space.yml
   tags: swap
 
 - name: Install OS packages
@@ -22,5 +22,4 @@
 
 - name: Configure instance oracle database 11g
   include: create-instance.yml
-  tags:
-    - create_instance
+  tags: create_instance
