@@ -1,30 +1,31 @@
 ---
 
-- name: Set swap_file variable
-  set_fact:
-    swap_file: /swap1.swap
-
 - name: Check if swap file exists
   stat:
-    path: "{{ swap_file }}"
+    path: "{{ os_swap_file }}"
   register: swap_file_check
 
+# Proper value of the swap space depends on the actual physical RAM on the server
+# As a rule of thumb:
+#   If RAM between 1 and 2 GB then swap should be 1.5 times the size of RAM
+#   If RAM between 2 and 16 GB then swap should be equal to the size of RAM
+#   If RAM greater than 16 GB then swap should be 16 GB
 - name: Create 1GB swap space
-  command: "dd if=/dev/zero of={{ swap_file }} bs=1024 count=1048576"
+  command: "dd if=/dev/zero of={{ os_swap_file }} bs=1024 count=1048576"
   when: not swap_file_check.stat.exists
 
 - name: Set permissions on swap file
   file:
-    path: "{{ swap_file }}"
+    path: "{{ os_swap_file }}"
     mode: 0600
   when: not swap_file_check.stat.exists
 
 - name: Format swap file
-  command: "mkswap {{ swap_file }}"
+  command: "mkswap {{ os_swap_file }}"
   when: not swap_file_check.stat.exists
 
 - name: Turn on swap
-  command: "swapon {{ swap_file }}"
+  command: "swapon {{ os_swap_file }}"
   when: not swap_file_check.stat.exists
 
 - name: Set swapiness
@@ -36,6 +37,6 @@
 - name: Add to fstab
   lineinfile:
     dest: /etc/fstab
-    regexp: "{{ swap_file }}"
-    line: "{{ swap_file }} none swap sw 0 0"
+    regexp: "{{ os_swap_file }}"
+    line: "{{ os_swap_file }} none swap sw 0 0"
   when: not swap_file_check.stat.exists

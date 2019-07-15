@@ -33,3 +33,5 @@ oracle_installer_path: /tmp
 oracle_database_inventory_location: /home/oracle/oracle_inventory
 oracle_database_oracle_base: /home/oracle/product
 oracle_database_oracle_home: "{{ oracle_database_oracle_base }}/oracle_home"
+
+os_swap_file: /swap1.swap
