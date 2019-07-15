@@ -1,6 +1,4 @@
 Vagrant.configure("2") do |config|
-#  config.vm.box = "generic/oracle7"
-#  config.vm.box_version = "1.9.18"
   config.vm.box = "centos/7"
   config.vm.box_version = "1905.1"
   config.vm.box_check_update = false
@@ -20,13 +18,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "node01" do |node|
     node.vm.hostname = "node01"
-    node.vm.network "private_network", ip: "192.168.1.111"
-
-    # vagrant plugin install vagrant-vbguest
-    # vagrant vbguest
-    # node.vm.synced_folder "/Users/clim/installer/dev/db/11.2.0.4", "/files"
-    node.vm.network "forwarded_port", guest: 1521, host: 15021
-
+    node.vm.network "private_network", ip: "172.16.170.240"
     node.vm.provider "virtualbox" do |vb|
         vb.name = "node01"
     end
