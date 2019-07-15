@@ -19,6 +19,6 @@
 
 - name: Install OS Packages
   yum:
-    name: unzip, libaio.i686, glibc.i686, compat-libstdc++-33.i686, elfutils-libelf-devel.i686, libaio-devel.i686, libgcc.i686, libstdc++.i686, unixODBC.i686, unixODBC-devel.i686, ksh
+    name: mosh, unzip, libaio.i686, glibc.i686, compat-libstdc++-33.i686, elfutils-libelf-devel.i686, libaio-devel.i686, libgcc.i686, libstdc++.i686, unixODBC.i686, unixODBC-devel.i686, ksh
     update_cache: yes
     state: installed
