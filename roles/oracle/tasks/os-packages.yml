@@ -7,7 +7,7 @@
 
 - name: Add Oracle yum repository
   get_url:
-    url: http://public-yum.oracle.com/public-yum-ol7.repo
+    url: https://public-yum.oracle.com/public-yum-ol7.repo
     dest: /etc/yum.repos.d/public-yum-ol7.repo
     owner: root
     group: root
@@ -16,6 +16,12 @@
 - name: Install pre-installation package
   yum:
     name: oracle-rdbms-server-11gR2-preinstall
+
+- name: Enable EPEL Repo
+  yum:
+    name: epel-release
+    update_cache: true
+    state: present
 
 - name: Install OS Packages
   yum:

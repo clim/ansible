@@ -2,7 +2,7 @@
 
 - name: Uncompress installation files
   unarchive:
-    src: "{{ item.path }}"
+    src: "{{ item }}"
     dest: /tmp
     copy: no
   with_items:

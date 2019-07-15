@@ -15,7 +15,7 @@
 - name: Open NiFi ports
   firewalld:
     zone: public
-    port: 1521
+    port: 1521/tcp
     permanent: true
     state: enabled
   notify:
