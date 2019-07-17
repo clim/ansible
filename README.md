@@ -1,9 +1,9 @@
 # ansible
-A set of ansible playbooks that I found useful over the years
+A set of ansible roles that I found useful over the years
 
 
 
-## Includes the following playbooks
+## Includes the following roles
 1. Oracle 11g (11.2.0.4)
 2. Project Harbor
 3. Apache NiFi
