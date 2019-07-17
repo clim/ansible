@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure the install directory exists
+- name: Ensure that install directory exists
   file:
     path: /opt/installer
     state: directory
