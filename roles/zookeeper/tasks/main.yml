@@ -46,7 +46,7 @@
   template:
     src: myid.j2
     dest: "{{ data_dir }}/myid"
-    owner: nlex
+    owner: "{{ ansible_user }}"
     force: "{{ zookeeper_force_myid }}"
 #  notify:
 #    - Restart zookeeper service
