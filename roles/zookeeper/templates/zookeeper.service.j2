@@ -4,7 +4,7 @@ After=network.target
 Wants=network.target
 
 [Service]
-Environment=JAVAX=/usr/java/jdk1.8.0_181-cloudera/bin/java
+Environment=JAVAX={{ java_path }}
 Type=simple
 User={{ ansible_user }}
 Group={{ ansible_user }}
