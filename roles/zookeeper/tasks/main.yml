@@ -1,0 +1,112 @@
+---
+
+- name: Ensure that install directory exists
+  file:
+    path: /opt/installer
+    state: directory
+
+- name: Download Zookeeper
+  get_url:
+    url: "{{ zookeeper_url }}"
+    dest: "/opt/installer/{{ zookeeper.binary }}"
+    checksum: "{{ zookeeper_checksum }}"
+
+- name: Extract Zookeeper installer
+  unarchive:
+    src: "/opt/installer/{{ zookeeper.binary }}"
+    dest: /opt
+    remote_src: true
+    creates: "{{ zookeeper_home }}/conf/configuration.xsl"
+
+- name: Change ownership on Zookeeper directory
+  file:
+    path: "{{ zookeeper_home }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+
+- name: Create symbolic link
+  file:
+    src: "{{ zookeeper_home }}"
+    dest: /opt/zookeeper
+    state: link
+
+- name: Create zookeeper directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  with_items:
+    - "{{ data_dir }}"
+    - "{{ log_dir }}"
+
+- name: Write myid file
+  template:
+    src: myid.j2
+    dest: "{{ data_dir }}/myid"
+    owner: nlex
+    force: "{{ zookeeper_force_myid }}"
+#  notify:
+#    - Restart zookeeper service
+
+- name: Copy configuration files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ zookeeper_home }}/conf/{{ item }}"
+    owner: zookeeper
+  with_items:
+    - zoo.cfg
+    - zookeeper-env.sh
+    - log4j.properties
+#  notify:
+#    - Restart zookeeper service
+
+- name: Copy Zookeeper executable
+  copy:
+    src: zkServer.sh
+    dest: "{{ zookeeper_home }}/bin/zkServer.sh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0744
+
+- name: Cleanup unnecessary files
+  file:
+    path: "{{ zookeeper_home }}/bin/{{ item }}"
+    state: absent
+  with_items:
+    - zkCli.cmd
+    - zkEnv.cmd
+    - zkServer.cmd
+
+- name: Create Zookeeper systemd service
+  template:
+    src: zookeeper.service.j2
+    dest: /etc/systemd/system/zookeeper.service
+  notify:
+    - Reload systemctl daemon
+    - Restart zookeeper service
+
+- name: Enable zookeeper service
+  service:
+    name: zookeeper
+    state: started
+    enabled: yes
+
+
+
+
+
+#- name: Open Zookeeper ports
+#  firewalld:
+#    zone: public
+#    port: "{{ item }}"
+#    permanent: true
+#    state: enabled
+#  with_items:
+#    - 2181/tcp
+#    - 2888/tcp
+#    - 3888/tcp
+#  notify:
+#    - Bounce firewalld
