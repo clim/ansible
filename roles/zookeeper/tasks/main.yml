@@ -8,12 +8,12 @@
 - name: Download Zookeeper
   get_url:
     url: "{{ zookeeper_url }}"
-    dest: "/opt/installer/{{ zookeeper.binary }}"
+    dest: "/opt/installer/{{ zookeeper_file }}"
     checksum: "{{ zookeeper_checksum }}"
 
 - name: Extract Zookeeper installer
   unarchive:
-    src: "/opt/installer/{{ zookeeper.binary }}"
+    src: "/opt/installer/{{ zookeeper_file }}"
     dest: /opt
     remote_src: true
     creates: "{{ zookeeper_home }}/conf/configuration.xsl"

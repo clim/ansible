@@ -2,6 +2,7 @@
 
 - name: Create Ansible user
   hosts: all
+  gather_facts: no
   become: yes
   roles:
     - user
@@ -9,6 +10,7 @@
 
 - name: Setup Oracle
   hosts: oracle
+  gather_facts: no
   become: yes
   roles:
     - oracle
@@ -16,10 +18,19 @@
 
 - name: Setup Java
   hosts: java
+  gather_facts: no
   become: yes
   roles:
     - java
   tags: java
+
+- name: Setup Zookeeper
+  hosts: zookeeper
+  gather_facts: no
+  become: yes
+  roles:
+    - zookeeper
+  tags: zookeeper
 
 - name: Setup Project Harbor
   hosts: harbor

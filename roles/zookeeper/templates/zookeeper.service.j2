@@ -6,8 +6,8 @@ Wants=network.target
 [Service]
 Environment=JAVAX=/usr/java/jdk1.8.0_181-cloudera/bin/java
 Type=simple
-User=nlex
-Group=nlex
+User={{ ansible_user }}
+Group={{ ansible_user }}
 ExecStart={{ zookeeper.home }}/bin/zkServer.sh start-foreground
 Restart=always
 RestartSec=3
