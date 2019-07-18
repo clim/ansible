@@ -6,9 +6,10 @@ A set of ansible roles that I found useful over the years
 ## Includes the following roles
 1. Oracle 11g (11.2.0.4)
 2. Project Harbor
-3. Apache NiFi
-4. Apache Zookeeper
-5. User creation
+3. Java 8
+4. Apache NiFi
+5. Apache Zookeeper
+6. User creation
 
 
 
@@ -37,6 +38,12 @@ A set of ansible roles that I found useful over the years
 ### User
 
 ### Oracle
+
+### Java
+The Java Runtime Environment needs to be manually downloaded from the
+[Oracle](https://www.oracle.com/technetwork/java/javase/downloads/server-jre8-downloads-2133154.html)
+website.
+
 
 ### Apache Zookeeper
 
