@@ -8,7 +8,7 @@ Environment=JAVAX={{ java_path }}
 Type=simple
 User={{ ansible_user }}
 Group={{ ansible_user }}
-ExecStart={{ zookeeper.home }}/bin/zkServer.sh start-foreground
+ExecStart={{ zookeeper_home }}/bin/zkServer.sh start-foreground
 Restart=always
 RestartSec=3
 TimeoutSec=300
