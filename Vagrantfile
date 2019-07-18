@@ -16,11 +16,13 @@ Vagrant.configure("2") do |config|
     sudo systemctl restart sshd
   EOC
 
-  config.vm.define "node01" do |node|
-    node.vm.hostname = "node01"
-    node.vm.network "private_network", ip: "172.16.170.240"
-    node.vm.provider "virtualbox" do |vb|
-        vb.name = "node01"
+  (1..3).each do |i|
+    config.vm.define "node0#{i}" do |node|
+      node.vm.hostname = "node0#{i}"
+      node.vm.network "private_network", ip: "192.168.1.11#{i}"
+      node.vm.provider "virtualbox" do |vb|
+        vb.name = "node0#{i}"
+      end
     end
   end
 
