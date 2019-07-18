@@ -1,0 +1,35 @@
+---
+- name: Ensure the install directory exists
+  file:
+    path: "{{ installer.path }}"
+    state: directory
+
+- name: Copy Java binary from 'local' to 'remote'.
+  copy:
+    src: "./installer/{{ binary }}"
+    dest: "{{ installer.path }}/{{ binary }}"
+  ignore_errors: true
+
+- name: Create Java Home directory
+  file:
+    path: "{{ home }}"
+    state: directory
+
+- name: Extract Java Binary
+  unarchive:
+    src: "{{ installer.path }}/{{ binary }}"
+    dest: "{{ base_path }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ home }}/bin/java"
+
+- name: Set Java version as default
+  alternatives:
+    name: "{{ item.exe }}"
+    link: "/usr/bin/{{ item.exe }}"
+    path: "{{ item.path }}/{{ item.exe }}"
+  with_items:
+    - { path: "{{ home }}/jre/bin", exe: 'java' }
+    - { path: "{{ home }}/bin", exe: 'javac' }
+    - { path: "{{ home }}/bin", exe: 'jar' }
