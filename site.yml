@@ -14,6 +14,13 @@
     - oracle
   tags: oracle
 
+- name: Setup Java
+  hosts: java
+  become: yes
+  roles:
+    - java
+  tags: java
+
 - name: Setup Project Harbor
   hosts: harbor
   gather_facts: no

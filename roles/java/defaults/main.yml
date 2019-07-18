@@ -1,5 +1,5 @@
 ---
 
-binary: server-jre-8u211-linux-x64.tar.gz
+binary: server-jre-8u221-linux-x64.tar.gz
 base_path: /usr/java
-home: /usr/java/jdk1.8.0_211
+home: /usr/java/jdk1.8.0_221
