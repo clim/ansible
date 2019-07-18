@@ -5,7 +5,7 @@
     path: "{{ installer.path }}"
     state: directory
 
-- name: Copy Java binary from 'local' to 'remote'.
+- name: Copy Java binary from 'local' to 'remote'
   copy:
     src: "./installer/{{ binary }}"
     dest: "{{ installer.path }}/{{ binary }}"
