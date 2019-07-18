@@ -55,7 +55,7 @@
   template:
     src: "{{ item }}.j2"
     dest: "{{ zookeeper_home }}/conf/{{ item }}"
-    owner: zookeeper
+    owner: "{{ ansible_user }}"
   with_items:
     - zoo.cfg
     - zookeeper-env.sh
