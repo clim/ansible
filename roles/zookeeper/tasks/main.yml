@@ -1,19 +1,19 @@
 ---
 
-- name: Ensure that install directory exists
+- name: Create installer directory
   file:
-    path: /opt/installer
+    path: "{{ installer.path }}"
     state: directory
 
 - name: Download Zookeeper
   get_url:
-    url: "{{ zookeeper_url }}"
-    dest: "/opt/installer/{{ zookeeper_file }}"
-    checksum: "{{ zookeeper_checksum }}"
+    url: "https://www-us.apache.org/dist/zookeeper/zookeeper-3.4.14/{{ zookeeper_file }}"
+    dest: "{{ installer.path }}/{{ zookeeper_file }}"
+    checksum: sha256:b14f7a0fece8bd34c7fffa46039e563ac5367607c612517aa7bd37306afbd1cd
 
 - name: Extract Zookeeper installer
   unarchive:
-    src: "/opt/installer/{{ zookeeper_file }}"
+    src: "{{ installer.path }}/{{ zookeeper_file }}"
     dest: /opt
     remote_src: true
     creates: "{{ zookeeper_home }}/conf/configuration.xsl"
@@ -48,8 +48,6 @@
     dest: "{{ data_dir }}/myid"
     owner: "{{ ansible_user }}"
     force: "{{ zookeeper_force_myid }}"
-#  notify:
-#    - Restart zookeeper service
 
 - name: Copy configuration files
   template:
@@ -60,8 +58,6 @@
     - zoo.cfg
     - zookeeper-env.sh
     - log4j.properties
-#  notify:
-#    - Restart zookeeper service
 
 - name: Copy Zookeeper executable
   copy:
@@ -94,19 +90,17 @@
     state: started
     enabled: yes
 
+- name: Open Zookeeper ports
+  firewalld:
+    zone: public
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - 3181/tcp
+    - 2999/tcp
+    - 3999/tcp
+  notify:
+    - Bounce firewalld
+  tags: firewall
 
-
-
-
-#- name: Open Zookeeper ports
-#  firewalld:
-#    zone: public
-#    port: "{{ item }}"
-#    permanent: true
-#    state: enabled
-#  with_items:
-#    - 2181/tcp
-#    - 2888/tcp
-#    - 3888/tcp
-#  notify:
-#    - Bounce firewalld

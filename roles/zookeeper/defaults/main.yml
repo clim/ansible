@@ -1,11 +1,10 @@
 ---
 
-zookeeper_version: 3.5.5
-zookeeper_file: apache-zookeeper-3.5.5.tar.gz
-zookeeper_url: https://www-us.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/{{ zookeeper_file }}
-zookeeper_checksum: sha512:4e22df899a83ca3cc15f6d94daadb1a8631fb4108e67b4f56d1f4fcf95f10f89c8ff1fb8a7c84799a3856d8803a8db1e1f2f3fe1b7dc0d6cedf485ef90fd212d
-zookeeper_home: /opt/apache-zookeeper-{{ zookeeper_version }}
-java_path: /usr/bin/java
+zookeeper_version: 3.4.14
+zookeeper_file: zookeeper-{{ zookeeper_version }}.tar.gz
+zookeeper_url: https://www-us.apache.org/dist/zookeeper/zookeeper-{{ zookeeper_version }}/zookeeper-{{ zookeeper_version }}.tar.gz
+zookeeper_home: /opt/zookeeper-{{ zookeeper_version }}
+java_binary: /usr/bin/java
 
 client_port: 3181
 init_limit: 10
@@ -40,3 +39,4 @@ zookeeper_env:
 
 # Controls Zookeeper myid generation
 zookeeper_force_myid: yes
+

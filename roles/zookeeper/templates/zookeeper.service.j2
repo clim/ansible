@@ -4,7 +4,7 @@ After=network.target
 Wants=network.target
 
 [Service]
-Environment=JAVAX={{ java_path }}
+Environment=JAVAX={{ java_binary }}
 Type=simple
 User={{ ansible_user }}
 Group={{ ansible_user }}
