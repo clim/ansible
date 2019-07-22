@@ -7,15 +7,30 @@
     state: present
 
 - name: Install Packages
-  yum:
-    name: libselinux-python, curl, tar, bzip2, zip, ntp, wget, tmux, mosh , net-tools, fio, mtr, htop, glances, ntp
-    update_cache: yes
-    state: installed
+  package:
+    name:
+      - libselinux-python
+      - curl
+      - tar
+      - bzip2
+      - zip
+      - ntp
+      - wget
+      - tmux
+      - mosh
+      - net-tools
+      - fio
+      - mtr
+      - htop
+      - glances
+    state: present
 
-#- name: Open mosh port
-#  firewalld:
-#    port: 60000-61000/udp
-#    permanent: true
-#    state: enabled
-#  notify:
-#    - Bounce firewalld
+- name: Open mosh port
+  firewalld:
+    port: 60000-61000/udp
+    permanent: true
+    state: enabled
+  notify:
+    - Bounce firewalld
+  tags: open_port
+

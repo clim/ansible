@@ -8,6 +8,14 @@
     - user
   tags: user
 
+- name: Configure OS
+  hosts: all
+  gather_facts: no
+  become: yes
+  roles:
+    - os
+  tags: os
+
 - name: Setup Oracle
   hosts: oracle
   gather_facts: no
