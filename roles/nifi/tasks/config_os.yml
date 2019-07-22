@@ -55,13 +55,6 @@
   notify:
     - Reload systemctl daemon
 
-#- name: Set how long sockets stay in a TIMED_WAIT state when closed
-#  sysctl:
-#    name: "net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait"
-#    value: "1"
-#  notify:
-#    - Reload systemctl daemon
-
 - name: Tell Linux you never want NiFi to swap
   sysctl:
     name: "vm.swappiness"
@@ -69,17 +62,18 @@
   notify:
     - Reload systemctl daemon
 
-#- name: Open NiFi ports
-#  firewalld:
-#    zone: public
-#    port: "{{ item }}"
-#    permanent: true
-#    state: enabled
-#  with_items:
-#    - 9443/tcp
-#    - 8081/tcp
-#    - 8082/tcp
-#    - 8022/tcp
-#    - 6342/tcp
-#  notify:
-#    - Bounce firewalld
+- name: Open NiFi ports
+  firewalld:
+    zone: public
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - 9443/tcp
+    - 8081/tcp
+    - 8082/tcp
+    - 8022/tcp
+    - 6342/tcp
+  notify:
+    - Bounce firewalld
+

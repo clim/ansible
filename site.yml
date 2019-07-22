@@ -32,6 +32,14 @@
     - zookeeper
   tags: zookeeper
 
+- name: Setup NiFi
+  hosts: nifi
+  gather_facts: no
+  become: yes
+  roles:
+    - nifi
+  tags: nifi
+
 - name: Setup Project Harbor
   hosts: harbor
   gather_facts: no

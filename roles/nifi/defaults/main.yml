@@ -2,3 +2,12 @@
 
 java_home: /usr/java/jdk1.8.0_221
 java_binary: /usr/bin/java
+
+nifi:
+  home: /opt/nifi-1.9.2
+  binary: nifi-1.9.2-bin.zip
+  zookeeper:
+    client_port: 3181
+    nifi_cluster_port: 8022
+  banner: Apache NiFi
+
