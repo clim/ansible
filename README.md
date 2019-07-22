@@ -38,6 +38,9 @@ A set of ansible roles that I found useful over the years
 ### User
 
 ### Oracle
+The Oracle installer files needs to be be manually downloaded from the Oracle website.
+[Disk 1](https://download.oracle.com/otn/linux/oracle11g/R2/linux.x64_11gR2_database_1of2.zip)
+[Disk2](https://download.oracle.com/otn/linux/oracle11g/R2/linux.x64_11gR2_database_2of2.zip)
 
 ### Java
 The Java Runtime Environment needs to be manually downloaded from the
