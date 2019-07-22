@@ -33,4 +33,3 @@
   notify:
     - Bounce firewalld
   tags: open_port
-
