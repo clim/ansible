@@ -4,12 +4,14 @@ A set of ansible roles that I found useful over the years
 
 
 ## Includes the following roles
-1. Oracle 11g (11.2.0.4)
-2. Project Harbor
-3. Java 8
-4. Apache NiFi
-5. Apache Zookeeper
-6. User creation
+1. OS
+2. Oracle 11g (11.2.0.4)
+3. OS
+4. Project Harbor
+5. Java 8
+6. Apache NiFi
+7. Apache Zookeeper
+8. User creation
 
 
 
@@ -34,6 +36,10 @@ A set of ansible roles that I found useful over the years
 
 
 ## Playbooks
+
+### OS
+Install packages that is needed to conveniently access and monitor the servers. Later on
+it will contain more sophisticated stuff such as default sshd configuration etc.
 
 ### User
 
