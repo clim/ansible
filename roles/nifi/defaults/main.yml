@@ -6,6 +6,7 @@ java_binary: /usr/bin/java
 nifi:
   home: /opt/nifi-1.9.2
   binary: nifi-1.9.2-bin.zip
+  max_memory: 2048m
   zookeeper:
     client_port: 3181
     nifi_cluster_port: 8022
