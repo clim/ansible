@@ -1,0 +1,85 @@
+---
+
+- name: Configure soft limit for Maximum File Handles
+  pam_limits:
+    domain: "*"
+    limit_type: soft
+    limit_item: nofile
+    value: 100000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure hard limit for Maximum File Handles
+  pam_limits:
+    domain: "*"
+    limit_type: hard
+    limit_item: nofile
+    value: 100000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure soft limit for Maximum Forked Processes
+  pam_limits:
+    domain: "*"
+    limit_type: soft
+    limit_item: nproc
+    value: 10000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure hard limit for Maximum Forked Processes
+  pam_limits:
+    domain: "*"
+    limit_type: hard
+    limit_item: nproc
+    value: 10000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure limits.d
+  lineinfile:
+    dest: "/etc/security/limits.d/90-nproc.conf"
+    insertafter: EOF
+    state: present
+    create: yes
+    line: "* soft nproc 10000"
+    mode: 0644
+  notify:
+    - Reload systemctl daemon
+
+- name: Increase the number of TCP socket ports available
+  sysctl:
+    name: "net.ipv4.ip_local_port_range"
+    value: "10000 65000"
+    sysctl_set: yes
+  notify:
+    - Reload systemctl daemon
+
+#- name: Set how long sockets stay in a TIMED_WAIT state when closed
+#  sysctl:
+#    name: "net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait"
+#    value: "1"
+#  notify:
+#    - Reload systemctl daemon
+
+- name: Tell Linux you never want NiFi to swap
+  sysctl:
+    name: "vm.swappiness"
+    value: "0"
+  notify:
+    - Reload systemctl daemon
+
+#- name: Open NiFi ports
+#  firewalld:
+#    zone: public
+#    port: "{{ item }}"
+#    permanent: true
+#    state: enabled
+#  with_items:
+#    - 9443/tcp
+#    - 8081/tcp
+#    - 8082/tcp
+#    - 8022/tcp
+#    - 6342/tcp
+#  notify:
+#    - Bounce firewalld
