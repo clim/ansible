@@ -1,22 +1,35 @@
 ---
-# tasks file for mkgin.vmware-harbor
 
-# pre install dirs and paths
-- include: harbor-data-directory.yml
+- name: Create installer directory
+  file:
+    path: "{{ installer.path }}"
+    state: directory
 
-#- name: "harbor_install_skip_docker_compose compose ?"
--  debug: var=harbor_install_skip_docker_compose, verbosity=2
+- name: Download Harbor
+  get_url:
+    url: "{{ harbor.binary.url }}"
+    dest: "{{ installer.path }}"
 
-# make sure we have docker and docker-compose
-- include: docker-compose.yml
-  when: harbor_install_skip_docker_compose == False
+- name: Uncompress Harbor
+  unarchive:
+    src: "{{ installer.path }}/{{ harbor.binary.file }}"
+    dest: "{{ harbor.install.path }}"
+    remote_src: yes
 
-#- name: "harbor_install_skip_docker_compose compose ?"
-- debug: var=harbor_install_https_self_signed, verbosity=2
+- name: Configuration harbor
+  template:
+    src: harbor.cfg.j2
+    dest: "{{ harbor.install.path }}/harbor/harbor.cfg"
 
-- include: https_self_signed.yml
-  when: harbor_install_https_self_signed == True
-# otherwise we assume the certificate is there and ok if configured
+- name: Setup harbor
+  shell: "{{ harbor.install.path }}/harbor/install.sh"
+  args:
+    chdir: "{{ harbor.install.path }}/harbor/"
 
-# install harbor
-- include: harbor-install.yml
+- name: Open port
+  firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+  notify:
+    - Bounce firewalld

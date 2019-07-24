@@ -1,2 +1,6 @@
 ---
-# handlers file for mkgin.vmware-harbor
+
+- name: Bounce firewalld
+  service:
+    name: firewalld
+    state: restarted

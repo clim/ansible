@@ -1,13 +1,13 @@
 ## Configuration file of Harbor
 
 _version = 1.7.0
-hostname = {{ ansible_host }}
-ui_url_protocol = http
+hostname = {{ ansible_fqdn }}
+ui_url_protocol = https
 
 max_job_workers = 10
 customize_crt = on
-# ssl_cert = {{ harbor.install.path }}/harbor/certificates/public/{{ ansible_fqdn }}.crt
-# ssl_cert_key = {{ harbor.install.path }}/harbor/certificates/private/{{ ansible_fqdn }}.key
+ssl_cert = {{ harbor.install.path }}/harbor/certificates/public/{{ ansible_fqdn }}.crt
+ssl_cert_key = {{ harbor.install.path }}/harbor/certificates/private/{{ ansible_fqdn }}.key
 
 #The path of secretkey storage
 secretkey_path = /data

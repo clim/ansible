@@ -1,0 +1,59 @@
+---
+
+- name: Create necessary SSL folders
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ harbor.install.path }}/harbor/certificates/public"
+    - "{{ harbor.install.path }}/harbor/certificates/private"
+    - /etc/docker/certs.d/{{ ansible_fqdn }}/
+
+- name: Add ca.crt in autorized Docker CA
+  copy:
+    src: "files/certificates/{{ ansible.environment }}/{{ ansible_fqdn }}/ca/ca.crt"
+    dest: "/etc/docker/certs.d/{{ ansible_fqdn }}/ca.crt"
+
+- name: Copy SSL Public Certificate
+  copy:
+    src: "files/certificates/{{ ansible.environment }}/{{ ansible_fqdn }}/public/{{ ansible_fqdn }}.crt"
+    dest: "{{ harbor.install.path }}/harbor/certificates/public/{{ ansible_fqdn }}.crt"
+
+- name: Copy SSL Private Certificate
+  copy:
+    src: "files/certificates/{{ ansible.environment }}/{{ ansible_fqdn }}/private/{{ ansible_fqdn }}.key"
+    dest: "{{ harbor.install.path }}/harbor/certificates/private/{{ ansible_fqdn }}.key"
+
+- name: Create installer directory
+  file:
+    path: "{{ installer.path }}"
+    state: directory
+
+- name: Download Harbor
+  get_url:
+    url: "{{ harbor.binary.url }}"
+    dest: "{{ installer.path }}"
+
+- name: Uncompress Harbor
+  unarchive:
+    src: "{{ installer.path }}/{{ harbor.binary.file }}"
+    dest: "{{ harbor.install.path }}"
+    remote_src: yes
+
+- name: Configuration harbor
+  template:
+    src: harbor.cfg.j2
+    dest: "{{ harbor.install.path }}/harbor/harbor.cfg"
+
+- name: Setup harbor
+  shell: "{{ harbor.install.path }}/harbor/install.sh"
+  args:
+    chdir: "{{ harbor.install.path }}/harbor/"
+
+- name: Open port
+  firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+  notify:
+    - Bounce firewalld
