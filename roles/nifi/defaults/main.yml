@@ -11,4 +11,9 @@ nifi:
     client_port: 3181
     nifi_cluster_port: 8022
   banner: Apache NiFi
-
+  content_repository:
+    - name: default
+      path: ./content_repository
+  provenance_repository:
+    - name: default
+      path: ./provenance_repository
