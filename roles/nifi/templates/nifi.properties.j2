@@ -62,12 +62,12 @@ nifi.content.repository.implementation=org.apache.nifi.controller.repository.Fil
 nifi.content.claim.max.appendable.size=1 MB
 nifi.content.claim.max.flow.files=100
 
-{% for repo in nifi.content_repository %}
+{% for repo in nifi.content_repository.directory %}
 nifi.content.repository.directory.{{ repo.name }}={{ repo.path }}
 {% endfor %}
 
-nifi.content.repository.archive.max.retention.period=12 hours
-nifi.content.repository.archive.max.usage.percentage=50%
+nifi.content.repository.archive.max.retention.period={{ nifi.content_repository.max_retention_period }}
+nifi.content.repository.archive.max.usage.percentage={{ nifi.content_repository.max_usage }}
 nifi.content.repository.archive.enabled=true
 nifi.content.repository.always.sync=false
 nifi.content.viewer.url=../nifi-content-viewer/
@@ -81,12 +81,12 @@ nifi.provenance.repository.encryption.key.id=
 nifi.provenance.repository.encryption.key=
 
 # Persistent Provenance Repository Properties
-{% for repo in nifi.provenance_repository %}
+{% for repo in nifi.provenance_repository.directory %}
 nifi.provenance.repository.directory.{{ repo.name }}={{ repo.path }}
 {% endfor %}
 
-nifi.provenance.repository.max.storage.time=24 hours
-nifi.provenance.repository.max.storage.size=1 GB
+nifi.provenance.repository.max.storage.time={{ nifi.provenance_repository.max_storage_time }}
+nifi.provenance.repository.max.storage.size={{ nifi.provenance_repository.max_storage_size }}
 nifi.provenance.repository.rollover.time=30 secs
 nifi.provenance.repository.rollover.size=100 MB
 nifi.provenance.repository.query.threads=2

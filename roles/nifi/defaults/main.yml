@@ -16,8 +16,14 @@ nifi:
     nifi_cluster_port: 8022
   banner: Apache NiFi
   content_repository:
-    - name: default
-      path: ./content_repository
+    max_retention_period: 12 hours
+    max_usage: 50%
+    directory:
+      - name: default
+        path: ./content_repository
   provenance_repository:
+    max_storage_time: 24 hours
+    max_storage_size: 1 GB
+    directory:
     - name: default
       path: ./provenance_repository
