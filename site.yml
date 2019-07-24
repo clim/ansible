@@ -50,8 +50,9 @@
 
 - name: Setup Project Harbor
   hosts: harbor
-  gather_facts: no
+  gather_facts: yes
   become: yes
   roles:
     - projectharbor
   tags: projectharbor
+
