@@ -7,9 +7,9 @@
 
 - name: Downloading NiFi
   get_url:
-    url: "https://www-us.apache.org/dist/nifi/1.9.2/{{ nifi.binary }}"
+    url: "{{ nifi.url }}"
     dest: "{{ installer.path }}/{{ nifi.binary }}"
-    checksum: sha256:8d50bd1a0408878ab41a5fcd18d179e5a293e7d0280ddbe5098a4627aaacbff1
+    checksum: "{{ nifi.checksum }}"
 
 - name: Extract NiFi installer
   unarchive:
