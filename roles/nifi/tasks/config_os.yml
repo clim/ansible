@@ -5,7 +5,7 @@
     domain: "*"
     limit_type: soft
     limit_item: nofile
-    value: 100000
+    value: "100000"
   notify:
     - Reload systemctl daemon
 
@@ -14,7 +14,7 @@
     domain: "*"
     limit_type: hard
     limit_item: nofile
-    value: 100000
+    value: "100000"
   notify:
     - Reload systemctl daemon
 
@@ -23,7 +23,7 @@
     domain: "*"
     limit_type: soft
     limit_item: nproc
-    value: 10000
+    value: "10000"
   notify:
     - Reload systemctl daemon
 
@@ -32,7 +32,7 @@
     domain: "*"
     limit_type: hard
     limit_item: nproc
-    value: 10000
+    value: "10000"
   notify:
     - Reload systemctl daemon
 
@@ -58,7 +58,7 @@
 - name: Tell Linux you never want NiFi to swap
   sysctl:
     name: "vm.swappiness"
-    value: "0"
+    value: "60"
   notify:
     - Reload systemctl daemon
 
@@ -69,9 +69,7 @@
     permanent: true
     state: enabled
   with_items:
-    - 9443/tcp
-    - 8081/tcp
-    - 8082/tcp
+    - 8080/tcp
     - 8022/tcp
     - 6342/tcp
   notify:
