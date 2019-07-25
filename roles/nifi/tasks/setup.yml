@@ -32,6 +32,26 @@
     dest: /opt/nifi
     state: link
 
+- name: Create NiFi content repositories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ nifi.content_repository.directory }}"
+
+- name: Create NiFi provenance repositories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ nifi.provenance_repository.directory }}"
+
 - name: Cleanup windows related files
   file:
     path: "{{ nifi.home }}/bin/{{ item }}"
