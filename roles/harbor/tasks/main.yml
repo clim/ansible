@@ -9,6 +9,13 @@
   get_url:
     url: "{{ harbor.binary.url }}"
     dest: "{{ installer.path }}"
+  when: download_harbor|bool
+
+- name: Copy Harbor installer
+  copy:
+    src: harbor-offline-installer-v1.8.1.tgz
+    dest: "{{ installer.path }}/harbor-offline-installer-v1.8.1.tgz"
+  when: not download_harbor|bool
 
 - name: Uncompress Harbor
   unarchive:
