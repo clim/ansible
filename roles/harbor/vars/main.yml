@@ -1,6 +1,6 @@
 harbor:
   install:
-    path: /opt/
+    path: /opt
   binary:
     file: harbor-offline-installer-v1.8.1.tgz
     url: https://storage.googleapis.com/harbor-releases/release-1.8.0/harbor-offline-installer-v1.8.1.tgz

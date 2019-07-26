@@ -22,11 +22,12 @@
     src: "{{ installer.path }}/{{ harbor.binary.file }}"
     dest: "{{ harbor.install.path }}"
     remote_src: yes
+    creates: "{{ harbor.install.path }}/harbor/harbor.yml"
 
 - name: Configuration harbor
   template:
-    src: harbor.cfg.j2
-    dest: "{{ harbor.install.path }}/harbor/harbor.cfg"
+    src: harbor.yml.j2
+    dest: "{{ harbor.install.path }}/harbor/harbor.yml"
 
 - name: Setup harbor
   shell: "{{ harbor.install.path }}/harbor/install.sh"
