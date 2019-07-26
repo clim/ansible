@@ -1,8 +1,11 @@
 ---
 
 - name: Install Docker required packages
-  yum:
-    name: ['yum-utils', 'device-mapper-persistent-data', 'lvm2']
+  package:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
     state: present
 
 - name: Add Docker GPG key
@@ -12,15 +15,18 @@
 
 - name: Add Docker repository
   get_url:
-    url: "{{ docker_yum_repo_url }}"
-    dest: '/etc/yum.repos.d/docker-ce.repo'
+    url: "{{ docker.repo.url }}"
+    dest: /etc/yum.repos.d/docker-ce.repo
     owner: root
     group: root
     mode: 0644
 
 - name: Install Docker
   package:
-    name: "docker-ce"
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
     state: present
 
 - name: Ensure Docker is started and enabled at boot

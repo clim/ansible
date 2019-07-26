@@ -1,11 +1,12 @@
 ---
-# Docker Compose options.
-docker_install_compose: true
-docker_install_volume_plugin: true
-docker_compose_version: "1.24.0"
-docker_compose_path: /usr/local/bin/docker-compose
 
-# Used only for RedHat/CentOS.
-docker_yum_repo_url: https://download.docker.com/linux/centos/docker-ce.repo
-docker_yum_repo_enable_edge: 0
-docker_yum_repo_enable_test: 0
+docker_compose_version: 1.24.1
+
+docker:
+  compose:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+  repo:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+
+local_persist:
+  url: https://github.com/CWSpear/local-persist/releases/download/v1.3.0/local-persist-linux-amd64
