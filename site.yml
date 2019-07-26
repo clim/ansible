@@ -53,6 +53,6 @@
   gather_facts: yes
   become: yes
   roles:
-    - projectharbor
-  tags: projectharbor
+    - harbor
+  tags: harbor
 
