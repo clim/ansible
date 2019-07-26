@@ -16,6 +16,14 @@
     - os
   tags: os
 
+- name: Setup Docker
+  hosts: all
+  gather_facts: no
+  become: yes
+  roles:
+    - docker
+  tags: docker
+
 - name: Setup Oracle
   hosts: oracle
   gather_facts: no

@@ -1,0 +1,11 @@
+---
+
+- name: Install Docker
+  include_tasks: docker.yml
+
+- name: Install Docker Compose
+  include_tasks: docker-compose.yml
+
+- name: Local Persist Docker Plugin
+  include_tasks: local-persist.yml
+  tags: local-persist

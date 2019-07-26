@@ -1,0 +1,22 @@
+---
+
+- name: Download local-persist
+  get_url:
+    url: https://github.com/CWSpear/local-persist/releases/download/v1.3.0/local-persist-linux-amd64
+    dest: /usr/bin/docker-volume-local-persist
+    owner: root
+    group: root
+    mode: 0744
+
+- name: Create systemd service unit
+  template:
+    src: local-persist.service.j2
+    dest: /etc/systemd/system/local-persist.service
+    mode: 0750
+
+- name: Re/Starting local-persist.service systemd
+  service:
+    name: local-persist.service
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
