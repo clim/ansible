@@ -67,15 +67,15 @@
     path: "{{ nifi.home }}/state"
     state: absent
 
-- name: Copy Oracle JDBC library file
-  copy:
-    src: "{{ item }}"
-    dest: "{{ nifi.home}}/lib/{{ item }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0644
-  with_items:
-    - ojdbc6.jar
+#- name: Copy Oracle JDBC library file
+#  copy:
+#    src: "{{ item }}"
+#    dest: "{{ nifi.home}}/lib/{{ item }}"
+#    owner: "{{ ansible_user }}"
+#    group: "{{ ansible_user }}"
+#    mode: 0644
+#  with_items:
+#    - ojdbc6.jar
 
 - name: Copy NiFi custom configurations
   template:
