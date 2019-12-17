@@ -16,6 +16,14 @@
     - os
   tags: os
 
+- name: Setup Java
+  hosts: java
+  gather_facts: no
+  become: yes
+  roles:
+    - java
+  tags: java
+
 - name: Setup Docker
   hosts: all
   gather_facts: no
@@ -31,14 +39,6 @@
   roles:
     - oracle
   tags: oracle
-
-- name: Setup Java
-  hosts: java
-  gather_facts: no
-  become: yes
-  roles:
-    - java
-  tags: java
 
 - name: Setup Zookeeper
   hosts: zookeeper
