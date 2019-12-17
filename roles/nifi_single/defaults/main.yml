@@ -1,0 +1,29 @@
+---
+
+java_home: /usr/java/jdk1.8.0_221
+java_binary: /usr/bin/java
+
+nifi_version: 1.9.2
+
+nifi:
+  home: /opt/nifi-{{ nifi_version }}
+  binary: nifi-{{ nifi_version }}-bin.tar.gz
+  url: https://www-us.apache.org/dist/nifi/{{ nifi_version }}/nifi-{{ nifi_version }}-bin.tar.gz
+  checksum: sha256:8d50bd1a0408878ab41a5fcd18d179e5a293e7d0280ddbe5098a4627aaacbff1
+  max_memory: 2048m
+  zookeeper:
+    client_port: 3181
+    nifi_cluster_port: 8022
+  banner: Apache NiFi
+  content_repository:
+    max_retention_period: 12 hours
+    max_usage: 50%
+    directory:
+      - name: default
+        path: ./content_repository
+  provenance_repository:
+    max_storage_time: 24 hours
+    max_storage_size: 1 GB
+    directory:
+    - name: default
+      path: ./provenance_repository

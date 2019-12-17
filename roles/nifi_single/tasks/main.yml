@@ -1,0 +1,13 @@
+---
+
+- name: Configure OS for NiFi
+  include_tasks: config_os.yml
+  tags: os
+
+- name: Setup NiFi binary
+  include_tasks: setup.yml
+  tags: setup
+
+- name: Run NiFi as systemd service
+  include_tasks: run.yml
+  tags: run

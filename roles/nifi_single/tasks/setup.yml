@@ -1,0 +1,89 @@
+---
+
+- name: Create installer directory
+  file:
+    path: "{{ installer.path }}"
+    state: directory
+
+- name: Downloading NiFi
+  get_url:
+    url: "{{ nifi.url }}"
+    dest: "{{ installer.path }}/{{ nifi.binary }}"
+    checksum: "{{ nifi.checksum }}"
+
+- name: Extract NiFi installer
+  unarchive:
+    src: "{{ installer.path }}/{{ nifi.binary }}"
+    dest: /opt
+    remote_src: true
+    creates: "{{ nifi.home }}/conf/nifi.properties"
+
+- name: Change ownership on NiFi directory
+  file:
+    path: "{{ nifi.home }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+
+- name: Create symbolic link
+  file:
+    src: "{{ nifi.home }}"
+    dest: /opt/nifi
+    state: link
+
+- name: Create NiFi content repositories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ nifi.content_repository.directory }}"
+
+- name: Create NiFi provenance repositories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ nifi.provenance_repository.directory }}"
+
+- name: Cleanup windows related files
+  file:
+    path: "{{ nifi.home }}/bin/{{ item }}"
+    state: absent
+  with_items:
+    - dump-nifi.bat
+    - nifi-env.bat
+    - run-nifi.bat
+    - status-nifi.bat
+
+- name: Cleanup previous state files if existing
+  file:
+    path: "{{ nifi.home }}/state"
+    state: absent
+
+#- name: Copy Oracle JDBC library file
+#  copy:
+#    src: "{{ item }}"
+#    dest: "{{ nifi.home}}/lib/{{ item }}"
+#    owner: "{{ ansible_user }}"
+#    group: "{{ ansible_user }}"
+#    mode: 0644
+#  with_items:
+#    - ojdbc6.jar
+
+- name: Copy NiFi custom configurations
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    owner: "{{ ansible_user }}"
+  with_items:
+    - { src: 'nifi.properties.j2', dst: '{{ nifi.home }}/conf/nifi.properties' }
+    - { src: 'bootstrap.conf.j2', dst: '{{ nifi.home }}/conf/bootstrap.conf'}
+    - { src: 'logback.xml.j2', dst: '{{ nifi.home }}/conf/logback.xml'}
+    - { src: 'state-management.xml.j2', dst: '{{ nifi.home }}/conf/state-management.xml'}

@@ -40,6 +40,14 @@
     - oracle
   tags: oracle
 
+- name: Setup NiFi Single Instance
+  hosts: nifi
+  gather_facts: no
+  become: yes
+  roles:
+    - nifi_single
+  tags: nifi_single
+
 - name: Setup Zookeeper
   hosts: zookeeper
   gather_facts: no
