@@ -1,0 +1,5 @@
+---
+
+username: pi
+group: pi
+ssh_key: './ssh_keys/id_rsa.pub'

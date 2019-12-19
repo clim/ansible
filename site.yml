@@ -72,3 +72,10 @@
     - harbor
   tags: harbor
 
+- name: Setup Raspberry Pi
+  hosts: raspberrypi
+  gather_facts: no
+  become: yes
+  roles:
+    - raspberrypi
+  tags: raspberrypi

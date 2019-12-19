@@ -1,0 +1,22 @@
+---
+
+- name: Downloading Gradle
+  get_url:
+    url: "{{ gradle.url }}"
+    dest: "{{ installer.path }}/{{ gradle.binary }}"
+    checksum: "{{ gradle.checksum }}"
+
+- name: Extract Gradle Binary
+  unarchive:
+    src: "{{ installer.path }}/{{ gradle.binary }}"
+    dest: "{{ install_path }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ install_path }}/bin/gradle"
+
+- name: Create Gradle symbolic link
+  file:
+    src: "{{ gradle.home }}"
+    dest: /opt/gradle
+    state: link

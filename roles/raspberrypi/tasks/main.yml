@@ -1,0 +1,57 @@
+---
+
+- name: Change the user password
+  user:
+    name: pi
+    password: "{{ password }}"
+
+- name: Set authorized key
+  authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ lookup('file', ssh_key) }}"
+
+- name: Set locale to en_US.UTF-8
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Remove previous locale
+  locale_gen:
+    name: en_GB.UTF-8
+    state: absent
+
+- name: Update locale
+  command: update-locale "en_US.UTF-8"
+
+- name: Install Packages
+  package:
+    name:
+      - git
+      - zip
+      - unzip
+      - ntp
+      - tmux
+      - mosh
+    state: present
+
+- name: Install Java
+  include_tasks: java.yml
+
+- name: Install Gradle
+  include_tasks: gradle.yml
+
+- name: Install Maven
+  include_tasks: maven.yml
+
+- name: Setup WiFi
+  template:
+    src: wpa_supplicant.conf.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+
+- name: Upload terminal preferences
+  copy:
+    src: .bashrc
+    dest: /home/pi
+    force: yes
+  ignore_errors: true

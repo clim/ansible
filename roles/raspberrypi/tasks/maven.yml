@@ -1,0 +1,24 @@
+
+
+---
+
+- name: Downloading Maven
+  get_url:
+    url: "{{ maven.url }}"
+    dest: "{{ installer.path }}/{{ maven.binary }}"
+    checksum: "{{ maven.checksum }}"
+
+- name: Extract Maven Binary
+  unarchive:
+    src: "{{ installer.path }}/{{ maven.binary }}"
+    dest: "{{ install_path }}"
+    remote_src: true
+    owner: root
+    group: root
+    creates: "{{ install_path }}/bin/mvn"
+
+- name: Create Maven symbolic link
+  file:
+    src: "{{ maven.home }}"
+    dest: /opt/maven
+    state: link

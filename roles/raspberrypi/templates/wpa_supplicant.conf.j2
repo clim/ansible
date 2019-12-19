@@ -1,0 +1,10 @@
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country={{ wifi.country }}
+
+# TODO: Add multiple access point definitions
+
+network={
+        ssid="{{ wifi.ssid }}"
+        psk="{{ wifi.psk }}"
+}
