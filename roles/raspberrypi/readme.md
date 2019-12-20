@@ -31,6 +31,9 @@ My objectives are:
 
 ### Linux Packages:
 1. git
+2. tmux
+3. fish
+4. mosh
 
 
 ## Prepare the SD Card

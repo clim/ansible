@@ -12,28 +12,30 @@
     key: "{{ lookup('file', ssh_key) }}"
 
 - name: Set locale to en_US.UTF-8
+  command: echo en_US.UTF-8 > /etc/locale.gen
+
+- name: Update locale to en_US.UTF-8
   locale_gen:
     name: en_US.UTF-8
     state: present
 
-- name: Remove previous locale
-  locale_gen:
-    name: en_GB.UTF-8
-    state: absent
-
-- name: Update locale
-  command: update-locale "en_US.UTF-8"
+- name: Set the timezone
+  timezone:
+    name: "{{ timezone }}"
 
 - name: Install Packages
-  package:
+  apt:
     name:
       - git
       - zip
       - unzip
       - ntp
       - tmux
+      - fish
       - mosh
+      - fortune
     state: present
+    update_cache: yes
 
 - name: Install Java
   include_tasks: java.yml
@@ -55,3 +57,24 @@
     dest: /home/pi
     force: yes
   ignore_errors: true
+
+- name: Copy temperature utility
+  copy:
+    src: temp.sh
+    dest: /home/pi
+    owner: pi
+    group: pi
+    mode: '0744'
+    force: yes
+
+- name: Remove default motd file
+  file:
+    path: /etc/motd
+    state: absent
+
+- name: Copy motd file
+  copy:
+    src: 99-fortune
+    dest: /etc/update-motd.d
+    mode: '0744'
+    force: yes
