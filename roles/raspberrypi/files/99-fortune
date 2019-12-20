@@ -3,3 +3,5 @@
 echo ''
 
 exec /usr/games/fortune -s
+
+echo ''

@@ -12,7 +12,7 @@
     key: "{{ lookup('file', ssh_key) }}"
 
 - name: Set locale to en_US.UTF-8
-  command: echo en_US.UTF-8 > /etc/locale.gen
+  command: echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
 - name: Update locale to en_US.UTF-8
   locale_gen:
@@ -78,3 +78,10 @@
     dest: /etc/update-motd.d
     mode: '0744'
     force: yes
+
+- name: Change hostname
+  template:
+    src: hostname.j2
+    dest: /etc/hostname
+  notify:
+    -  Reboot Raspberry Pi

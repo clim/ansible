@@ -1,5 +1,6 @@
 ---
 
+hostname: raspberrypi
 timezone: America/Los_Angeles
 install_path: /opt
 binary: jdk-8u231-linux-arm32-vfp-hflt.tar.gz
