@@ -108,3 +108,10 @@ My objectives are:
     ```
     $ ansible-playbook -i inventory/raspberrypi site.yml --tags raspberrypi
     ```
+
+
+## Post Configuration
+
+### Java
+
+To change between version use update-alternatives command.
