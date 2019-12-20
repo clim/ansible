@@ -115,3 +115,9 @@ My objectives are:
 ### Java
 
 To change between version use update-alternatives command.
+
+
+## Future packages to install
+1. docker and docker-compose
+2. kubectl
+3. Samba file sharing
