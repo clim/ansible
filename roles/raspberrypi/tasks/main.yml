@@ -36,6 +36,7 @@
       - fortune
       - openjdk-11-jdk
       - mc
+      - ansible
     state: present
     update_cache: yes
 
