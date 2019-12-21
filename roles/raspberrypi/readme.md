@@ -116,6 +116,11 @@ My objectives are:
 
 To change between version use update-alternatives command.
 
+```
+$ update-alternatives --config java
+```
+
+
 
 ## Future packages to install
 1. kubectl
