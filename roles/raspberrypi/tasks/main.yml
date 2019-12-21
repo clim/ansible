@@ -4,6 +4,7 @@
   user:
     name: pi
     password: "{{ password }}"
+    groups: videos
 
 - name: Set authorized key
   authorized_key:
