@@ -91,3 +91,9 @@
     - { src: 'hosts.j2', dest: '/etc/hosts' }
   notify:
     -  Reboot Raspberry Pi
+
+- name: Install Docker
+  include_tasks: docker.yml
+
+- name: Install Samba
+  include_tasks: samba.yml

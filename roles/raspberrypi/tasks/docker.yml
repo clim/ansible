@@ -1,0 +1,32 @@
+---
+
+- name: Install Docker prerequisite packages
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg2
+      - software-properties-common
+    state: present
+    update_cache: yes
+
+- name: Download Docker script
+  get_url:
+    url: https://get.docker.com
+    dest: /opt/get-docker.sh
+    mode: '0744'
+
+- name: Install Docker
+  command: /opt/get-docker.sh
+
+- name: Add user to Docker
+  user:
+    name: pi
+    groups: docker
+
+- name: Ensure Docker is started and enabled at boot
+  service:
+    name: docker
+    state: started
+    enabled: yes

@@ -1,0 +1,30 @@
+---
+
+- name: Install Samba packages
+  apt:
+    name:
+      - samba
+      - samba-common-bin
+    state: present
+    update_cache: yes
+
+- name: Create a shared folder
+  file:
+    path: /opt/share
+    state: directory
+
+- name: Copy Samba configuration
+  copy:
+    src: smb.conf
+    dest: /etc/samba/smb.conf
+    force: yes
+  ignore_errors: true
+
+- name: Create Samba user password
+  command: echo password | smbpasswd -s -a pi
+
+- name: Start Samba service
+  service:
+    name: smbd
+    state: started
+    enabled: yes
