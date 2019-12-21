@@ -119,5 +119,7 @@ To change between version use update-alternatives command.
 
 ## Future packages to install
 1. docker and docker-compose
+   - https://www.docker.com/blog/happy-pi-day-docker-raspberry-pi/
 2. kubectl
 3. Samba file sharing
+   - https://www.juanmtech.com/samba-file-sharing-raspberry-pi/
