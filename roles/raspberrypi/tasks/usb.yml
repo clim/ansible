@@ -1,0 +1,19 @@
+---
+
+- name: Create USB mount folder
+  file:
+    path: /mnt/dev
+    owner: pi
+    group: pi
+    state: directory
+    mode: '0755'
+
+- name: Mount USB Drive
+  mount:
+    path: /mnt/dev
+    src: /dev/sda1
+    fstype: ext4
+    opts: nofail,x-systemd.device-timeout=1,user,noatime
+    dump: 0
+    backup: no
+    state: present

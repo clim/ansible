@@ -5,6 +5,7 @@
     name: pi
     password: "{{ password }}"
     groups: video
+    append: yes
 
 - name: Set authorized key
   authorized_key:
@@ -98,3 +99,6 @@
 
 - name: Install Samba
   include_tasks: samba.yml
+
+- name: Mount USB Drive
+  include_tasks: usb.yml
