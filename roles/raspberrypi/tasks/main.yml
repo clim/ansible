@@ -23,6 +23,15 @@
     force: yes
   ignore_errors: true
 
+- name: Copy git configuration
+  template:
+    src: gitconfig.j2
+    dest: /home/pi/.gitconfig
+    owner: pi
+    group: pi
+    mode: '0644'
+    force: yes
+
 - name: Set locale to en_US.UTF-8
   command: echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 

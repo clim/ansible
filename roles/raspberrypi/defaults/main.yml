@@ -8,6 +8,10 @@ base_path: /usr/java
 home: /usr/java/jdk1.8.0_231
 password: $6$mysecretsalt$MIJffjeQyfrKKrGkprGrDL/g2mCJa53koLmYQuuLmY9y37pDvGKPXU1Ov3RbMi.tpQ9cWvxAzUVtBLe7KrZoU.
 
+git:
+  username: pi
+  email: pi@rasperry.temp
+
 wifi:
   country: US
   ssid: test1
