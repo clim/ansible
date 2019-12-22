@@ -32,6 +32,27 @@
     mode: '0644'
     force: yes
 
+- name: Create Maven Home Directory
+  file:
+    path: "{{ item }}"
+    owner: pi
+    group: pi
+    mode: '0744'
+    state: directory
+  with_items:
+    - /home/pi/.m2
+    - /mnt/dev/.m2
+
+- name: Copy Maven settings
+  copy:
+    src: settings.xml
+    dest: /home/pi/.m2
+    owner: pi
+    group: pi
+    mode: '0644'
+    force: yes
+  ignore_errors: true
+
 - name: Set locale to en_US.UTF-8
   command: echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 
