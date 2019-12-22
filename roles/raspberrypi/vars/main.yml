@@ -2,4 +2,5 @@
 
 username: pi
 group: pi
-ssh_key: './ssh_keys/id_rsa.pub'
+ssh_key_pub: './ssh_keys/id_rsa.pub'
+ssh_key_priv: './ssh_keys/id_rsa'

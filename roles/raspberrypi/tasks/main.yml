@@ -11,7 +11,17 @@
   authorized_key:
     user: "{{ username }}"
     state: present
-    key: "{{ lookup('file', ssh_key) }}"
+    key: "{{ lookup('file', ssh_key_pub) }}"
+
+- name: Add SSH private key
+  copy:
+    src: ./ssh_keys/id_rsa
+    dest: /home/pi/.ssh/id_rsa
+    owner: pi
+    group: pi
+    mode: '0600'
+    force: yes
+  ignore_errors: true
 
 - name: Set locale to en_US.UTF-8
   command: echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
