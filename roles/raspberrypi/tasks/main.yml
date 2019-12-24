@@ -77,13 +77,21 @@
       - mosh
       - fortune
       - openjdk-11-jdk
+      - openjdk-8-jdk
       - mc
       - ansible
     state: present
     update_cache: yes
 
-- name: Install Java
-  include_tasks: java.yml
+- name: Set Java 11 as default
+  alternatives:
+    name: "{{ item.exe }}"
+    link: "/usr/bin/{{ item.exe }}"
+    path: "{{ item.path }}/{{ item.exe }}"
+  with_items:
+    - { path: "{{ java.home }}/bin", exe: 'java' }
+    - { path: "{{ java.home }}/bin", exe: 'javac' }
+    - { path: "{{ java.home }}/bin", exe: 'jar' }
 
 - name: Install Gradle
   include_tasks: gradle.yml

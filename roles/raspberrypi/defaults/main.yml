@@ -3,10 +3,11 @@
 hostname: raspberrypi
 timezone: America/Los_Angeles
 install_path: /opt
-binary: jdk-8u231-linux-arm32-vfp-hflt.tar.gz
 base_path: /usr/java
-home: /usr/java/jdk1.8.0_231
 password: $6$mysecretsalt$MIJffjeQyfrKKrGkprGrDL/g2mCJa53koLmYQuuLmY9y37pDvGKPXU1Ov3RbMi.tpQ9cWvxAzUVtBLe7KrZoU.
+
+java:
+  home: /usr/lib/jvm/java-11-openjdk-armhf
 
 git:
   username: pi
