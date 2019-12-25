@@ -125,6 +125,7 @@ $ update-alternatives --config java
 ## Future packages to install
 1. kubectl
 2. Samba still has issue with authentication
+3. Transmission
 
 
 
