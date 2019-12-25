@@ -23,7 +23,7 @@ My objectives are:
 
 ### Software Development:
 
-1. JDK 1.8 32-bit (Raspbian Buster is only available in 32-bit. Ubuntu Core has a
+1. JDK 1.8 and 11 (openjdk-8-jdk and openjdk-11-jdk)
     64-bit version but I'm not familiar with the OS configuration so I'll just
     stick with Raspbian)
 2. Gradle 6.0.1
@@ -79,17 +79,7 @@ My objectives are:
 
 ## Configure the Raspberry Pi via Ansible
 
-1. Download Java 1.8 32-bit from [Oracle](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-
-    The file to download is:
-
-    ```
-   jdk-8u231-linux-arm32-vfp-hflt.tar.gz
-    ```
-
-    NOTE: This will require a valid Oracle account before it can be downloaded
-
-2. Try to ping via Ansible
+1. Try to ping via Ansible
 
     ```
    $ ansible all -i inventory/raspberry -m ping
@@ -103,23 +93,11 @@ My objectives are:
     }
     ```
 
-3. Execute Ansible
+2. Execute Ansible
 
     ```
     $ ansible-playbook -i inventory/raspberrypi site.yml --tags raspberrypi
     ```
-
-
-## Post Configuration
-
-### Java
-
-To change between version use update-alternatives command.
-
-```
-$ update-alternatives --config java
-```
-
 
 
 ## Future packages to install
