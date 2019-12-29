@@ -105,6 +105,22 @@ My objectives are:
 2. Samba still has issue with authentication
 3. Transmission
 
+## TODO:
+1. Disable unattended-upgrade
+    - It justs consumes additional CPU and RAM and we would like our system to be pretty stable.
+      Not affected by unintentional package upgrades.
+
+https://wiki.debian.org/UnattendedUpgrades
+
+sudo systemctl mask unattended-upgrade.service
+
+The functionality on unattended-upgrades is automatically enabled after the installation of 16.04 Xenial Server. I mistakenly didn't really disable it so observed the unexpected behaviors above. Method Two here I had followed is unlikely effective.
+
+To properly disable the automatic updates, we need change the configuation on /etc/apt/apt.conf.d/20auto-upgrades from:
+
+APT::Periodic::Unattended-Upgrade "1";
+to:
+APT::Periodic::Unattended-Upgrade "0"; 
 
 
 ## Tips
