@@ -123,6 +123,10 @@ to:
 APT::Periodic::Unattended-Upgrade "0"; 
 
 
+2. Disable bluetooth
+/boot/config.txt
+dtoverlay=pi3-disable-bt
+
 ## Tips
 
 To troubleshoot disk mounting problems
