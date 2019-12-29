@@ -135,3 +135,7 @@ To troubleshoot disk mounting problems
 $ dmesg
 ```
 
+To change the wifi connection:
+```
+$ wpa_cli -i wlan0 select_network $(wpa_cli -i wlan0 list_network | grep example_name | cut -f 1)
+```
