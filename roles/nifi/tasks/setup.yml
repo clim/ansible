@@ -5,11 +5,18 @@
     path: "{{ installer.path }}"
     state: directory
 
+- name: Copy NiFi binary
+  copy:
+    src: "{{ nifi.binary }}"
+    dest: "{{ installer.path }}/{{ nifi.binary }}"
+  tags: copy_nifi
+
 - name: Downloading NiFi
   get_url:
     url: "{{ nifi.url }}"
     dest: "{{ installer.path }}/{{ nifi.binary }}"
     checksum: "{{ nifi.checksum }}"
+  tags: download_nifi
 
 - name: Extract NiFi installer
   unarchive:
