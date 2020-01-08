@@ -1,0 +1,21 @@
+---
+
+- hosts: nifi
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Restart NiFi Service
+      service:
+        name: 'nifi.service'
+        state: restarted
+        daemon_reload: yes
+        enabled: yes
+      tags: restart
+
+    - name: Stop NiFi Service
+      service:
+        name: 'nifi.service'
+        state: stopped
+      tags: stop
+
