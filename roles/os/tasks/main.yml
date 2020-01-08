@@ -23,6 +23,7 @@
       - mtr
       - htop
       - glances
+      - java-1.8.0-openjdk
     state: present
 
 - name: Open mosh port
