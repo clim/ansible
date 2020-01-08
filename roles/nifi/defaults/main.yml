@@ -1,9 +1,9 @@
 ---
 
-java_home: /usr/java/jdk1.8.0_221
+java_home: /usr/lib/jvm/java-1.8.0-openjdk
 java_binary: /usr/bin/java
 
-nifi_version: 1.9.2
+nifi_version: 1.10.0
 
 nifi:
   home: /opt/nifi-{{ nifi_version }}
