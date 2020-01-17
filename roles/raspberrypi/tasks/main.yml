@@ -142,11 +142,11 @@
   notify:
     -  Reboot Raspberry Pi
 
-- name: Install Docker
-  include_tasks: docker.yml
+#- name: Install Docker
+#  include_tasks: docker.yml
 
-- name: Install Samba
-  include_tasks: samba.yml
+#- name: Install Samba
+#  include_tasks: samba.yml
 
 - name: Mount USB Drive
   include_tasks: usb.yml

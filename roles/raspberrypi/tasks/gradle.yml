@@ -1,5 +1,10 @@
 ---
 
+- name: Create installer directory
+  file:
+    path: "{{ installer.path }}"
+    state: directory
+
 - name: Downloading Gradle
   get_url:
     url: "{{ gradle.url }}"
