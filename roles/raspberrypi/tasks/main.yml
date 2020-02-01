@@ -1,24 +1,23 @@
 ---
 
-- name: Change the user password
+- name: Change password for the pi user
   user:
     name: pi
-    password: "{{ password }}"
+    password: "{{ password|password_hash('sha512') }}"
+    update_password: always
+
+- name: Add user to the video group
+  user:
+    name: "{{ username }}"
     groups: video
     append: yes
 
-- name: Set authorized key
-  authorized_key:
-    user: "{{ username }}"
-    state: present
-    key: "{{ lookup('file', ssh_key_pub) }}"
-
 - name: Add SSH private key
   copy:
-    src: ./ssh_keys/id_rsa
-    dest: /home/pi/.ssh/id_rsa
-    owner: pi
-    group: pi
+    src: "{{ ssh_key_priv }}"
+    dest: "/home/{{ username }}/.ssh/id_rsa"
+    owner: "{{ username }}"
+    group: "{{ group }}"
     mode: '0600'
     force: yes
   ignore_errors: true
@@ -26,29 +25,29 @@
 - name: Copy git configuration
   template:
     src: gitconfig.j2
-    dest: /home/pi/.gitconfig
-    owner: pi
-    group: pi
+    dest: "/home/{{ username }}/.gitconfig"
+    owner: "{{ username }}"
+    group: "{{ group }}"
     mode: '0644'
     force: yes
 
 - name: Create Maven Home Directory
   file:
     path: "{{ item }}"
-    owner: pi
-    group: pi
+    owner: "{{ username }}"
+    group: "{{ group }}"
     mode: '0744'
     state: directory
   with_items:
-    - /home/pi/.m2
+    - "/home/{{ username }}/.m2"
     - /mnt/dev/.m2
 
 - name: Copy Maven settings
   copy:
     src: settings.xml
-    dest: /home/pi/.m2
-    owner: pi
-    group: pi
+    dest: "/home/{{ username }}/.m2"
+    owner: "{{ username }}"
+    group: "{{ group }}"
     mode: '0644'
     force: yes
   ignore_errors: true
@@ -65,6 +64,16 @@
   timezone:
     name: "{{ timezone }}"
 
+- name: Update package cache
+  apt:
+    update_cache: yes
+  tags: upgrade
+
+- name: Upgrade packages
+  apt:
+    upgrade: dist
+  tags: upgrade
+
 - name: Install Packages
   apt:
     name:
@@ -80,8 +89,16 @@
       - openjdk-8-jdk
       - mc
       - ansible
+#      - net-tools
+#      - ifupdown2
+#      - wireless-tools
+#      - wpasupplicant
     state: present
     update_cache: yes
+  tags: packages
+
+#- name: Setup WiFi
+#  include_tasks: wifi.yml
 
 - name: Set Java 11 as default
   alternatives:
@@ -107,16 +124,16 @@
 - name: Upload terminal preferences
   copy:
     src: .bashrc
-    dest: /home/pi
+    dest: "/home/{{ username }}"
     force: yes
   ignore_errors: true
 
 - name: Copy temperature utility
   copy:
     src: temp.sh
-    dest: /home/pi
-    owner: pi
-    group: pi
+    dest: "/home/{{ username }}"
+    owner: "{{ username }}"
+    group: "{{ group }}"
     mode: '0744'
     force: yes
 

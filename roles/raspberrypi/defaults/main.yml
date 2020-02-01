@@ -1,5 +1,10 @@
 ---
 
+username: pi
+group: pi
+ssh_key_pub: './ssh_keys/id_rsa.pub'
+ssh_key_priv: './ssh_keys/id_rsa'
+
 hostname: raspberrypi
 timezone: America/Los_Angeles
 install_path: /opt
@@ -8,6 +13,7 @@ password: $6$mysecretsalt$MIJffjeQyfrKKrGkprGrDL/g2mCJa53koLmYQuuLmY9y37pDvGKPXU
 
 java:
   home: /usr/lib/jvm/java-11-openjdk-armhf
+#  home: /usr/lib/jvm/java-11-openjdk-arm64
 
 git:
   username: pi

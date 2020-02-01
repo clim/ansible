@@ -3,8 +3,8 @@
 - name: Create USB mount folder
   file:
     path: /mnt/dev
-    owner: pi
-    group: pi
+    owner: "{{ username }}"
+    group: "{{ group }}"
     state: directory
     mode: '0755'
 

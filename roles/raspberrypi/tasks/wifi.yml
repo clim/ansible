@@ -1,0 +1,17 @@
+---
+
+# WIP
+# This is only applicable for Ubuntu. With Raspbian this is not necessary and might cause
+# some errors.
+
+- name: Setup WiFi
+  template:
+    src: wpa_supplicant.conf.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+
+- name: Copy interface configuration
+  copy:
+    src: wlan0
+    dest: /etc/network/interfaces.d
+    force: yes
+  ignore_errors: true

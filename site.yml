@@ -1,6 +1,6 @@
 ---
 
-- name: Create Ansible user
+- name: Create user
   hosts: all
   gather_facts: no
   become: yes
