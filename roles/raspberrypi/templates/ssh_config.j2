@@ -1,0 +1,8 @@
+{% for config in ssh_config %}
+Host {{ config.host }}
+    Hostname {{ config.hostname }}
+    Port {{ config.port }}
+    User {{ config.user }}
+    IdentityFile {{ config.identity_file }}
+
+{% endfor -%}
