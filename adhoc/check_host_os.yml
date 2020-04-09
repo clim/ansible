@@ -1,0 +1,15 @@
+---
+
+- name: Check OS
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - debug:
+        msg: "{{ ansible_distribution }}"
+    - debug:
+        msg: "{{ ansible_distribution_major_version }}"
+    - debug:
+        msg: "{{ ansible_distribution_version }}"

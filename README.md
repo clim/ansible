@@ -6,12 +6,12 @@ A set of ansible roles that I found useful over the years
 ## Includes the following roles
 1. OS
 2. Oracle 11g (11.2.0.4)
-3. OS
-4. Project Harbor
-5. Java 8
-6. Apache NiFi
-7. Apache Zookeeper
-8. User creation
+3. Project Harbor
+4. Java 8
+5. Apache NiFi
+6. Apache Zookeeper
+7. User creation
+8. Raspberry Pi
 
 
 
