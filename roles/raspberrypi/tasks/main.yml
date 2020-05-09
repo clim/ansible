@@ -1,8 +1,8 @@
 ---
 
-- name: Change password for the pi user
+- name: Change password for the ubuntu user
   user:
-    name: pi
+    name: ubuntu
     password: "{{ password|password_hash('sha512') }}"
     update_password: always
 
@@ -49,7 +49,6 @@
     state: directory
   with_items:
     - "/home/{{ username }}/.m2"
-    - /mnt/dev/.m2
 
 - name: Copy Maven settings
   copy:
@@ -98,16 +97,10 @@
       - openjdk-8-jdk
       - mc
       - ansible
-#      - net-tools
-#      - ifupdown2
-#      - wireless-tools
-#      - wpasupplicant
+      - python3-pip
     state: present
     update_cache: yes
   tags: packages
-
-#- name: Setup WiFi
-#  include_tasks: wifi.yml
 
 - name: Set Java 11 as default
   alternatives:
@@ -125,11 +118,6 @@
 - name: Install Maven
   include_tasks: maven.yml
 
-- name: Setup WiFi
-  template:
-    src: wpa_supplicant.conf.j2
-    dest: /etc/wpa_supplicant/wpa_supplicant.conf
-
 - name: Upload terminal preferences
   copy:
     src: .bashrc
@@ -146,17 +134,21 @@
     mode: '0744'
     force: yes
 
-- name: Remove default motd file
-  file:
-    path: /etc/motd
-    state: absent
-
 - name: Copy motd file
   copy:
     src: 99-fortune
     dest: /etc/update-motd.d
     mode: '0744'
     force: yes
+
+- name: Remove unnecessary motd files
+  file:
+    path: "/etc/update-motd.d/{{ item }}"
+    state: absent
+  with_items:
+    - 00-header
+    - 10-help-text
+    - 50-motd-news
 
 - name: Change hostname
   template:
@@ -168,11 +160,8 @@
   notify:
     -  Reboot Raspberry Pi
 
-#- name: Install Docker
-#  include_tasks: docker.yml
-
-#- name: Install Samba
-#  include_tasks: samba.yml
+- name: Install Docker
+  include_tasks: docker.yml
 
 - name: Mount USB Drive
   include_tasks: usb.yml
