@@ -98,6 +98,8 @@
       - mc
       - ansible
       - python3-pip
+      - network-manager
+      - net-tools
     state: present
     update_cache: yes
   tags: packages
