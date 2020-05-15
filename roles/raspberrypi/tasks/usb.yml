@@ -10,3 +10,4 @@
 
 - name: Mount USB Drive
   command: mount /dev/sda1 /mnt/dev
+  ignore_errors: true
