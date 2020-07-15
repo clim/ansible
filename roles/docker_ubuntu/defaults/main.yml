@@ -1,0 +1,9 @@
+---
+
+docker_compose_version: 1.26.2
+
+docker:
+  compose:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+  repo:
+    url: https://download.docker.com/linux/centos/docker-ce.repo

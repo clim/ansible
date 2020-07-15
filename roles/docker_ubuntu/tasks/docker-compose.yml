@@ -1,0 +1,15 @@
+---
+
+- name: Download docker-compose
+  get_url:
+    url: "{{ docker.compose.url }}"
+    dest: /usr/local/bin/docker-compose
+    owner: root
+    group: root
+    mode: 0744
+
+- name: Create symbolic link
+  file:
+    src: /usr/local/bin/docker-compose
+    dest: /usr/bin/docker-compose
+    state: link

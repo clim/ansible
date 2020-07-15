@@ -32,6 +32,14 @@
     - docker
   tags: docker
 
+- name: Setup Docker on Ubuntu
+  hosts: all
+  gather_facts: no
+  become: yes
+  roles:
+    - docker_ubuntu
+  tags: docker_ubuntu
+
 - name: Setup Oracle
   hosts: oracle
   gather_facts: no
