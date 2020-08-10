@@ -87,3 +87,11 @@
   roles:
     - raspberrypi
   tags: raspberrypi
+
+- name: Setup Raspberry Pi Zero
+  hosts: raspberrypizero
+  gather_facts: yes
+  become: yes
+  roles:
+    - raspberrypizero
+  tags: raspberrypizero

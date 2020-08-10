@@ -1,0 +1,56 @@
+---
+
+- name: Change password for the pi user
+  user:
+    name: pi
+    password: "{{ password|password_hash('sha512') }}"
+    update_password: always
+
+- name: Add SSH private key
+  copy:
+    src: "{{ ssh_key_priv }}"
+    dest: "/home/{{ username }}/.ssh/id_rsa"
+    owner: "{{ username }}"
+    group: "{{ group }}"
+    mode: '0600'
+    force: yes
+  ignore_errors: true
+
+- name: Set locale to en_US.UTF-8
+  command: echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+- name: Update locale to en_US.UTF-8
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set the timezone
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Update package cache
+  apt:
+    update_cache: yes
+  tags: upgrade
+
+- name: Upgrade packages
+  apt:
+    upgrade: dist
+  tags: upgrade
+
+- name: Install Packages
+  apt:
+    name:
+      - zip
+      - mc
+      - python3-pip
+      - aircrack-ng
+      - recon-ng
+      - proxychains
+      - sqlmap
+    state: present
+    update_cache: yes
+  tags: packages
+
+- name: Setup nexmon
+  include_tasks: nexmon.yml
