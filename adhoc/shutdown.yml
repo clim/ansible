@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Shutdown Nodes
+      shell: sleep 2 && shutdown -h now "Shutdown Nodes"
+      async: 1
+      poll: 0
+      ignore_errors: true
