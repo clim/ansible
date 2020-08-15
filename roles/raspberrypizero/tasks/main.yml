@@ -41,7 +41,11 @@
 - name: Install Packages
   apt:
     name:
+      - git
+      - mosh
       - zip
+      - tmux
+      - fish
       - mc
       - python3-pip
       - aircrack-ng
@@ -51,6 +55,3 @@
     state: present
     update_cache: yes
   tags: packages
-
-- name: Setup nexmon
-  include_tasks: nexmon.yml
