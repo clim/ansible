@@ -51,6 +51,8 @@
       - aircrack-ng
       - recon-ng
       - proxychains
+      - nmap
+      - nikto
       - sqlmap
     state: present
     update_cache: yes
