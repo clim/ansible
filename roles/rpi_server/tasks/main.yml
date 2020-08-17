@@ -1,0 +1,41 @@
+---
+
+- name: Set locale to en_US.UTF-8
+  command: echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+- name: Update locale to en_US.UTF-8
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set the timezone
+  timezone:
+    name: "{{ timezone }}"
+
+- name: Update package cache
+  apt:
+    update_cache: yes
+  tags: upgrade
+
+- name: Upgrade packages
+  apt:
+    upgrade: dist
+  tags: upgrade
+
+- name: Install Packages
+  apt:
+    name:
+      - mosh
+      - openjdk-8-jdk
+    state: present
+    update_cache: yes
+  tags: packages
+
+- name: Copy temperature utility
+  copy:
+    src: temp.sh
+    dest: "/home/{{ ansible_user }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0744'
+    force: yes

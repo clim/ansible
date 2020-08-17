@@ -95,3 +95,11 @@
   roles:
     - raspberrypizero
   tags: raspberrypizero
+
+- name: Setup Raspberry Pi Servers
+  hosts: all
+  gather_facts: yes
+  become: yes
+  roles:
+    - rpi_server
+  tags: rpi_server

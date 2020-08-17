@@ -7,9 +7,9 @@
 
 - name: Download Zookeeper
   get_url:
-    url: "https://www-us.apache.org/dist/zookeeper/zookeeper-3.4.14/{{ zookeeper_file }}"
+    url: "{{ zookeeper_url }}"
     dest: "{{ installer.path }}/{{ zookeeper_file }}"
-    checksum: sha256:b14f7a0fece8bd34c7fffa46039e563ac5367607c612517aa7bd37306afbd1cd
+    checksum: "{{ zookeeper_checksum }}"
 
 - name: Extract Zookeeper installer
   unarchive:
@@ -59,13 +59,13 @@
     - zookeeper-env.sh
     - log4j.properties
 
-- name: Copy Zookeeper executable
-  copy:
-    src: zkServer.sh
-    dest: "{{ zookeeper_home }}/bin/zkServer.sh"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
-    mode: 0744
+#- name: Copy Zookeeper executable
+#  copy:
+#    src: zkServer.sh
+#    dest: "{{ zookeeper_home }}/bin/zkServer.sh"
+#    owner: "{{ ansible_user }}"
+#    group: "{{ ansible_user }}"
+#    mode: 0744
 
 - name: Cleanup unnecessary files
   file:
@@ -100,7 +100,7 @@
     - 3181/tcp
     - 2999/tcp
     - 3999/tcp
+  ignore_errors: yes
   notify:
     - Bounce firewalld
   tags: firewall
-
