@@ -7,7 +7,7 @@ zookeeper_checksum: sha512:9f2c2293a60e02244dff64438704094b2edb167bc45aa82def49e
 zookeeper_home: /opt/apache-zookeeper-{{ zookeeper_version }}-bin
 java_binary: /usr/bin/java
 
-client_port: 3181
+client_port: 2181
 init_limit: 10
 sync_limit: 5
 tick_time: 2000
