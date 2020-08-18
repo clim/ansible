@@ -1,0 +1,14 @@
+---
+
+- name: Reload systemctl daemon
+  command: systemctl daemon-reload
+
+- name: Bounce firewalld
+  service:
+    name: firewalld
+    state: restarted
+
+- name: Restart kafka service
+  service:
+    name: kafka
+    state: restarted

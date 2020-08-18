@@ -1,0 +1,74 @@
+---
+
+- name: Ensure the install directory exists
+  file:
+    path: "{{ installer.path }}"
+    state: directory
+
+- name: Download Kafka
+  get_url:
+    url: "{{ kafka_url }}"
+    dest: "{{ installer.path }}/{{ kafka_file }}"
+    checksum: "{{ kafka_checksum }}"
+
+- name: Extract Kafka installer
+  unarchive:
+    src: "{{ installer.path }}/{{ kafka_file }}"
+    dest: /opt
+    remote_src: yes
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    creates: "{{ kafka_home }}/libs/kafka_{{ scala_version }}-{{ kafka_version }}.jar"
+
+- name: Change ownership on Kafka directory
+  file:
+    path: "{{ kafka_home }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: yes
+
+- name: Create symbolic link
+  file:
+    src: "{{ kafka_home }}"
+    dest: /opt/kafka
+    state: link
+
+- name: Create directory for kafka log files
+  file:
+    path: '{{ kafka_log_dirs }}/logs'
+    state: directory
+    group: "{{ ansible_user }}"
+    owner: "{{ ansible_user }}"
+
+- name: Copy Kafka custom configurations
+  template:
+    src: "{{ item.file }}.j2"
+    dest: "{{ item.path }}/{{ item.file }}"
+    owner: "{{ ansible_user }}"
+  with_items:
+    - { file: 'server.properties', path: '{{ kafka_home }}/config' }
+    - { file: 'producer.properties', path: '{{ kafka_home }}/config'}
+    - { file: 'consumer.properties', path: '{{ kafka_home }}/config'}
+    - { file: 'kafka-server-start.sh', path: '{{ kafka_home }}/bin'}
+    - { file: 'kafka.service', path: '/usr/lib/systemd/system/'}
+  notify:
+    - Restart kafka service
+    - Reload systemctl daemon
+    - Restart kafka service
+
+- name: Install and start the kafka service
+  service:
+    name: kafka
+    state: started
+    enabled: yes
+
+- name: Open Kafka Listener Port
+  firewalld:
+    zone: public
+    port: 9092/tcp
+    permanent: true
+    state: enabled
+  ignore_errors: yes
+  notify:
+    - Bounce firewalld

@@ -64,6 +64,14 @@
     - zookeeper
   tags: zookeeper
 
+- name: Setup Kafka
+  hosts: kafka
+  gather_facts: no
+  become: yes
+  roles:
+    - kafka
+  tags: kafka
+
 - name: Setup NiFi
   hosts: nifi
   gather_facts: no

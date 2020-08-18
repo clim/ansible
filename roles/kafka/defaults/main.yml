@@ -1,0 +1,91 @@
+---
+
+kafka_version: 2.6.0
+scala_version: 2.13
+kafka_file: kafka_{{ scala_version }}-{{ kafka_version }}.tgz
+kafka_url: http://mirror.rise.ph/apache/kafka/{{ kafka_version }}/{{ kafka_file }}
+kafka_checksum: sha512:d884e4df7d85b4fff54ca9cd987811c58506ad7871b9ed7114bbafa6fee2e79f43d04c550eea471f508b08ea34b4316ea1e529996066fd9b93fcf912f41f6165
+kafka_home: "/opt/kafka_{{ scala_version }}-{{ kafka_version }}"
+kafka_heap: 1G
+
+# This does not have to be every Zookeeper host, but the more the better
+#  by default, we assume this is run at the same time as Zookeeper provisioning
+zk_hosts: "{{ groups['zookeeper'] }}" # This does not have to be every Zookeeper host
+zk_client_port: 2181
+
+kafka_cluster_info:
+   node03:
+     broker_id: 1
+   node04:
+     broker_id: 2
+   node05:
+     broker_id: 3
+
+
+############################# Server #############################
+
+# The id of the broker. This must be set to a unique integer for each broker.
+kafka_broker_id: "{{ kafka_cluster_info[inventory_hostname]['broker_id'] }}"
+
+# The address the socket server listens on. It will get the value returned from
+# java.net.InetAddress.getCanonicalHostName() if not configured.
+#   FORMAT:
+#     listeners = security_protocol://host_name:port
+#   EXAMPLE:
+#     listeners = PLAINTEXT://your.host.name:9092
+#listeners=PLAINTEXT://:9092
+kafka_listener_protocol: PLAINTEXT
+kafka_listener_hostname: "{{ hostvars[inventory_hostname]['ansible_host'] }}"
+kafka_listener_port: 9092
+
+# The number of threads handling network requests
+kafka_num_network_threads: 3
+
+# A comma seperated list of directories under which to store log files
+kafka_log_dirs: /var/lib/kafka
+
+# The default number of log partitions per topic. More partitions allow greater
+# parallelism for consumption, but this will also result in more files across
+# the brokers.
+kafka_num_partitions: 3
+
+# The minimum age of a log file to be eligible for deletion
+kafka_log_retention_hours: 168
+
+# Enable auto creation of topic on the server
+kafka_auto_create_topics_enable: true
+
+# Enables delete topic. Delete topic through the admin tool will have no
+# effect if this config is turned off
+kafka_delete_topic_enable: true
+
+# Default replication factor for automatically created topics.
+kafka_default_replication_factor: 2
+
+zookeeper_client_port: 2181
+
+############################# Zookeeper #############################
+
+# Zookeeper connection string (see zookeeper docs for details).
+# This is a comma separated host:port pairs, each corresponding to a zk
+# server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
+# You can also append an optional chroot string to the urls to specify the
+# root directory for all kafka znodes.
+# other approach {# {% for host in groups['zookeeper'] %}{{ hostvars[host]['ansible_host'] }}:{{ zookeeper_client_port}}{% if not loop.last %},{% endif %}{% endfor %} #"
+kafka_zookeeper_connect: "{{ zk_hosts | map('extract', hostvars, 'ansible_host') | join(':{0},'.format(zk_client_port)) }}:{{ zk_client_port }}"
+
+# Timeout in ms for connecting to zookeeper
+kafka_zookeeper_connection_timeout: 6000
+
+
+############################# Producer #############################
+
+# list of brokers used for bootstrapping knowledge about the rest of the cluster
+# format: host1:port1,host2:port2 ...
+# TODO: replace zk_hosts to kafka_hosts
+kafka_bootstrap_servers: "{{ zk_hosts | map('extract', hostvars, 'ansible_host') | join(':{0},'.format(kafka_listener_port)) }}:{{ kafka_listener_port }}"
+
+############################# Consumer #############################
+
+#consumer group id
+kafka_consumer_group_id: kafka-consumer-group

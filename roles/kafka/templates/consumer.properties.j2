@@ -1,0 +1,17 @@
+# list of brokers used for bootstrapping knowledge about the rest of the cluster
+# format: host1:port1,host2:port2 ...
+bootstrap.servers={{ kafka_bootstrap_servers }}
+
+# Zookeeper connection string
+# comma separated host:port pairs, each corresponding to a zk
+# server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002"
+# zookeeper.connect={{ kafka_zookeeper_connect }}
+
+# timeout in ms for connecting to zookeeper
+# zookeeper.connection.timeout.ms={{ kafka_zookeeper_connection_timeout }}
+
+#consumer group id
+group.id={{ kafka_consumer_group_id }}
+
+#consumer timeout
+#consumer.timeout.ms=5000
