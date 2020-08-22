@@ -1,0 +1,18 @@
+---
+
+- hosts: kafka
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Perform a rolling restart of the Kafka cluster
+      service:
+        name: kafka
+        state: restarted
+
+    - name: Wait for all partitions to be caught up again
+      shell: "/opt/kafka/bin/kafka-topics.sh --describe --zookeeper {{ zookeeper_connect }} --under-replicated-partitions"
+      register: result
+      retries: 10
+      delay: 15
+      until: result.stdout == ""
