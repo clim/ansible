@@ -29,6 +29,53 @@
   notify:
     - Reload systemctl daemon
 
+- name: Configure soft limit for Maximum File Handles
+  pam_limits:
+    domain: "*"
+    limit_type: soft
+    limit_item: nofile
+    value: 100000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure hard limit for Maximum File Handles
+  pam_limits:
+    domain: "*"
+    limit_type: hard
+    limit_item: nofile
+    value: 100000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure soft limit for Maximum Forked Processes
+  pam_limits:
+    domain: "*"
+    limit_type: soft
+    limit_item: nproc
+    value: 10000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure hard limit for Maximum Forked Processes
+  pam_limits:
+    domain: "*"
+    limit_type: hard
+    limit_item: nproc
+    value: 10000
+  notify:
+    - Reload systemctl daemon
+
+- name: Configure limits.d
+  lineinfile:
+    dest: "/etc/security/limits.d/90-nproc.conf"
+    insertafter: EOF
+    state: present
+    create: yes
+    line: "* soft nproc 10000"
+    mode: 0644
+  notify:
+    - Reload systemctl daemon
+
 - name: Update package cache
   apt:
     update_cache: yes
