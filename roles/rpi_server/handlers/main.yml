@@ -1,5 +1,8 @@
 ---
 
+- name: Reload systemctl daemon
+  command: systemctl daemon-reload
+
 - name: Reboot Raspberry Pi
   shell: sleep 2 && shutdown -r now "Rebooting servers"
   async: 1

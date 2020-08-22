@@ -22,6 +22,13 @@
   notify:
     -  Reboot Raspberry Pi
 
+- name: Set memory swapping to a minimum
+  sysctl:
+    name: "vm.swappiness"
+    value: "1"
+  notify:
+    - Reload systemctl daemon
+
 - name: Update package cache
   apt:
     update_cache: yes
