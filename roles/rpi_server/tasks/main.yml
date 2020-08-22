@@ -12,6 +12,16 @@
   timezone:
     name: "{{ timezone }}"
 
+- name: Change hostname
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: 'hostname.j2', dest: '/etc/hostname' }
+    - { src: 'hosts.j2', dest: '/etc/hosts' }
+  notify:
+    -  Reboot Raspberry Pi
+
 - name: Update package cache
   apt:
     update_cache: yes

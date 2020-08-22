@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  kafka-manager:
+    image: qnib/plain-kafka-manager
+    container_name: cmak
+    environment:
+      ZK_SERVER: "10.91.145.132:2181,10.91.145.106:2181,10.91.145.104:2181"
+      APPLICATION_SECRET: change_me
+    ports:
+      - "9001:9000"
+    restart: unless-stopped

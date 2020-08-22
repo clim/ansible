@@ -1,0 +1,12 @@
+---
+
+- hosts: all
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Reboot Nodes
+      shell: sleep 2 && shutdown -r now "Reboot Nodes"
+      async: 1
+      poll: 0
+      ignore_errors: true
