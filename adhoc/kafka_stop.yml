@@ -1,0 +1,12 @@
+---
+
+- name: Perform a rolling restart of the Kafka cluster
+  hosts: kafka
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Stop Kafka service
+      service:
+        name: kafka
+        state: stopped
