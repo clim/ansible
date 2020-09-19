@@ -1,0 +1,36 @@
+---
+
+#TODO:
+#  Implement the kafka role patterned after
+#  - https://medium.com/@mykidong/howto-organize-ansible-playbook-to-install-uninstall-start-and-stop-kafka-and-kafka-connect-e7250c5def9d
+#
+# something like this:
+# $ ansible-playbook -i prod install.yml --extra-vars "target_hosts=kafka-hosts role_name=kafka run_option=install";
+
+
+- name: Uninstall Kafka
+  hosts: kafka
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Stop Kafka service
+      systemd:
+        name: kafka
+        state: stopped
+
+    - name: Remove Kafka home directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - /opt/kafka
+        - /opt/kafka_2.13-2.6.0
+        - /var/lib/kafka
+
+    - name: Disable Kafka service
+      systemd:
+        name: kafka
+        enabled: no
+        masked: yes
+        daemon_reload: yes
