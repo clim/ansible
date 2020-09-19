@@ -9,6 +9,7 @@ Type=simple
 SuccessExitStatus=143
 ExecStart={{ kafka_home }}/bin/kafka-server-start.sh {{ kafka_home }}/config/server.properties
 ExecStop={{ kafka_home }}/bin/kafka-server-stop.sh
+Environment="KAFKA_HEAP_OPTS=-Xmx{{ kafka_heap }}"
 User={{ ansible_user }}
 Group={{ ansible_user }}
 
