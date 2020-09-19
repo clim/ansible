@@ -63,12 +63,16 @@
     state: started
     enabled: yes
 
-- name: Open Kafka Listener Port
+- name: Open Kafka Ports
   firewalld:
     zone: public
     port: 9092/tcp
     permanent: true
     state: enabled
+  with_items:
+    - 9092/tcp
+    - 2888/tcp
+    - 3888/tcp
   ignore_errors: yes
   notify:
     - Bounce firewalld

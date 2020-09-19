@@ -42,7 +42,7 @@ kafka_listener_port: 9092
 kafka_num_network_threads: 3
 
 # A comma seperated list of directories under which to store log files
-kafka_log_dirs: /var/lib/kafka
+kafka_log_dirs: /mnt/data/kafka
 
 # The default number of log partitions per topic. More partitions allow greater
 # parallelism for consumption, but this will also result in more files across

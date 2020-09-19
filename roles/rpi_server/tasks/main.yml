@@ -91,6 +91,7 @@
     name:
       - mosh
       - openjdk-8-jdk
+      - firewalld
     state: present
     update_cache: yes
   tags: packages
